@@ -34,6 +34,7 @@ jobs:
         run: zig build test
 
       - name: Check binary size
+        shell: bash
         run: |
           SIZE=$(wc -c < zig-out/bin/zcat 2>/dev/null || wc -c < zig-out/bin/zcat.exe)
           echo "Binary size: $SIZE bytes"
