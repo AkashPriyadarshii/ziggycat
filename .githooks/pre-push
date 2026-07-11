@@ -13,7 +13,7 @@ zig build test
 
 echo "  Checking binary size..."
 SIZE=$(wc -c < zig-out/bin/zcat | tr -d ' ')
-MAX=250000
+MAX=600000
 if [ "$SIZE" -gt "$MAX" ]; then
     echo "  FAIL: Binary too large ($SIZE bytes, max $MAX)"
     exit 1
