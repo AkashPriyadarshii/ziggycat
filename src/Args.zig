@@ -7,7 +7,8 @@ pub fn parse(allocator: std.mem.Allocator, args: std.process.Args) !Args {
         .files = .empty,
     };
 
-    var iter = std.process.Args.Iterator.init(args);
+    var iter = try std.process.Args.Iterator.initAllocator(args, allocator);
+    defer iter.deinit();
 
     // Skip program name
     _ = iter.next();
