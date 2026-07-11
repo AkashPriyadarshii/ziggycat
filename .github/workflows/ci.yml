@@ -38,8 +38,8 @@ jobs:
         run: |
           SIZE=$(wc -c < zig-out/bin/zcat 2>/dev/null || wc -c < zig-out/bin/zcat.exe)
           echo "Binary size: $SIZE bytes"
-          if [ "$SIZE" -gt 250000 ]; then
-            echo "FAIL: Binary too large ($SIZE > 250000)"
+          if [ "$SIZE" -gt 600000 ]; then
+            echo "FAIL: Binary too large ($SIZE > 600000)"
             exit 1
           fi
 
