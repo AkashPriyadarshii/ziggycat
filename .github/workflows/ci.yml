@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-linux
+          - os: macos-latest
+            target: aarch64-macos
+          - os: windows-latest
+            target: x86_64-windows
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: mlugg/setup-zig@v1
+        with:
+          version: '0.16.0'
+
+      - name: Build
+        run: zig build -Doptimize=ReleaseSmall
+
+      - name: Test
+        run: zig build test
+
+      - name: Check binary size
+        run: |
+          SIZE=$(wc -c < zig-out/bin/zcat 2>/dev/null || wc -c < zig-out/bin/zcat.exe)
+          echo "Binary size: $SIZE bytes"
+          if [ "$SIZE" -gt 250000 ]; then
+            echo "FAIL: Binary too large ($SIZE > 250000)"
+            exit 1
+          fi
+
+      - name: Package (unix)
+        if: runner.os != 'Windows'
+        run: |
+          cd zig-out/bin
+          tar czf "../../zcat-${{ matrix.target }}.tar.gz" zcat
+          zip "../../zcat-${{ matrix.target }}.zip" zcat
+
+      - name: Package (windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd zig-out/bin
+          7z a "../../zcat-${{ matrix.target }}.zip" zcat.exe
+          tar czf "../../zcat-${{ matrix.target }}.tar.gz" zcat.exe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: zcat-${{ matrix.target }}
+          path: |
+            zcat-${{ matrix.target }}.tar.gz
+            zcat-${{ matrix.target }}.zip
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            zcat-*/zcat-*.tar.gz
+            zcat-*/zcat-*.zip

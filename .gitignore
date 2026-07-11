@@ -1,0 +1,22 @@
+# Build
+zig-out/
+zig-cache/
+.zig-cache/
+
+# Test fixtures
+test/fixtures/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local

@@ -1,0 +1,23 @@
+#!/bin/sh
+# Pre-push hook: build + test before pushing
+
+set -e
+
+echo "Running pre-push checks..."
+
+echo "  Building (ReleaseSmall)..."
+zig build -Doptimize=ReleaseSmall
+
+echo "  Running tests..."
+zig build test
+
+echo "  Checking binary size..."
+SIZE=$(wc -c < zig-out/bin/zcat | tr -d ' ')
+MAX=250000
+if [ "$SIZE" -gt "$MAX" ]; then
+    echo "  FAIL: Binary too large ($SIZE bytes, max $MAX)"
+    exit 1
+fi
+echo "  Binary size: ${SIZE} bytes (OK)"
+
+echo "Pre-push checks passed."
