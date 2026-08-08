@@ -52,7 +52,18 @@ build.zig.zon — package metadata
 {"files":[{"path":"file.txt","size":1234,"lines":[{"n":1,"text":"..."}]}]}
 ```
 
-Stdin shows as `"path":"-"`. Multiple files produce multiple entries.
+Stdin shows as `"path":"-","size":null`. Multiple files produce multiple entries.
+Unreadable files emit `{"path":"...","error":"..."}` and processing continues
+(exit code 1 if any file failed).
+
+## Install (Claude Code / general use)
+
+```bash
+cp zig-out/bin/zcat.exe ~/.local/bin/zcat.exe
+```
+
+On PATH in PowerShell. In Git Bash, `zcat` collides with GNU gzip's zcat
+(decompressor) — use full path `~/.local/bin/zcat.exe` there.
 
 ## Notes
 

@@ -41,18 +41,6 @@ pub fn main(init: std.process.Init) !void {
 
     if (args.json_output) {
         cat.processJson() catch |err| switch (err) {
-            error.FileNotFound => {
-                try File.stderr().writeStreamingAll(io, "zcat: no such file or directory\n");
-                std.process.exit(1);
-            },
-            error.AccessDenied => {
-                try File.stderr().writeStreamingAll(io, "zcat: permission denied\n");
-                std.process.exit(1);
-            },
-            error.IsDir => {
-                try File.stderr().writeStreamingAll(io, "zcat: is a directory\n");
-                std.process.exit(1);
-            },
             error.ReadFailed => {
                 try File.stderr().writeStreamingAll(io, "zcat: read error\n");
                 std.process.exit(1);
@@ -80,10 +68,12 @@ pub fn main(init: std.process.Init) !void {
             else => return err,
         };
     }
+
+    if (cat.any_file_error) std.process.exit(1);
 }
 
 const help_text =
-    \\zcat v0.1.0 - A modern cat replacement
+    \\zcat v0.1.1 - A modern cat replacement
     \\
     \\Usage: zcat [OPTIONS] [FILE...]
     \\
@@ -107,4 +97,4 @@ const help_text =
     \\
 ;
 
-const version_text = "zcat 0.1.0\n";
+const version_text = "zcat 0.1.1\n";

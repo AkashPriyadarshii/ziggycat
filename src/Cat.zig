@@ -10,6 +10,7 @@ io: Io,
 args: *const Args,
 line_number: u64 = 1,
 prev_was_blank: bool = false,
+any_file_error: bool = false,
 
 pub fn init(allocator: std.mem.Allocator, io: Io, args: *const Args) !Self {
     _ = allocator;
@@ -90,7 +91,7 @@ fn processStdinJson(self: *Self, stdout: File) !void {
     var stdin_file = File.stdin();
     var stdin_reader = stdin_file.readerStreaming(self.io, &stdin_buf);
 
-    try stdout.writeStreamingAll(self.io, "{\"path\":\"-\",\"lines\":[");
+    try stdout.writeStreamingAll(self.io, "{\"path\":\"-\",\"size\":null,\"lines\":[");
 
     var line_num: u64 = 1;
     var first_line = true;
@@ -125,28 +126,44 @@ fn processStdinJson(self: *Self, stdout: File) !void {
             line_num += 1;
 
             try stdout.writeStreamingAll(self.io, ",\"text\":\"");
-
-            for (line) |byte| {
-                switch (byte) {
-                    '"' => try stdout.writeStreamingAll(self.io, "\\\""),
-                    '\\' => try stdout.writeStreamingAll(self.io, "\\\\"),
-                    '\n' => {},
-                    '\r' => {},
-                    '\t' => try stdout.writeStreamingAll(self.io, "\\t"),
-                    else => {
-                        if (byte >= 0x20) {
-                            const char_buf = [1]u8{byte};
-                            try stdout.writeStreamingAll(self.io, &char_buf);
-                        }
-                    },
-                }
-            }
-
+            try self.writeEscaped(stdout, line);
             try stdout.writeStreamingAll(self.io, "\"}");
         }
     }
 
     try stdout.writeStreamingAll(self.io, "]}");
+}
+
+fn writeErrorRecord(self: *Self, stdout: File, file_path: []const u8, err: anyerror) !void {
+    const msg = switch (err) {
+        error.FileNotFound => "no such file or directory",
+        error.AccessDenied => "permission denied",
+        error.IsDir => "is a directory",
+        else => "read failed",
+    };
+    try stdout.writeStreamingAll(self.io, "{\"path\":\"");
+    try self.writeEscaped(stdout, file_path);
+    try stdout.writeStreamingAll(self.io, "\",\"error\":\"");
+    try stdout.writeStreamingAll(self.io, msg);
+    try stdout.writeStreamingAll(self.io, "\"}");
+}
+
+fn writeEscaped(self: *Self, stdout: File, bytes: []const u8) !void {
+    for (bytes) |byte| {
+        switch (byte) {
+            '"' => try stdout.writeStreamingAll(self.io, "\\\""),
+            '\\' => try stdout.writeStreamingAll(self.io, "\\\\"),
+            '\n' => {},
+            '\r' => {},
+            '\t' => try stdout.writeStreamingAll(self.io, "\\t"),
+            else => {
+                if (byte >= 0x20) {
+                    const char_buf = [1]u8{byte};
+                    try stdout.writeStreamingAll(self.io, &char_buf);
+                }
+            },
+        }
+    }
 }
 
 fn processFile(self: *Self, file_path: []const u8) !void {
@@ -241,17 +258,25 @@ fn processLine(
 }
 
 fn processFileJson(self: *Self, stdout: File, file_path: []const u8) !void {
-    var file = try Dir.openFileAbsolute(
+    var file = Dir.openFileAbsolute(
         self.io,
         file_path,
         .{ .mode = .read_only },
-    );
+    ) catch |err| {
+        self.any_file_error = true;
+        try self.writeErrorRecord(stdout, file_path, err);
+        return;
+    };
     defer file.close(self.io);
 
-    const stat = try file.stat(self.io);
+    const stat = file.stat(self.io) catch |err| {
+        self.any_file_error = true;
+        try self.writeErrorRecord(stdout, file_path, err);
+        return;
+    };
 
     try stdout.writeStreamingAll(self.io, "{\"path\":\"");
-    try stdout.writeStreamingAll(self.io, file_path);
+    try self.writeEscaped(stdout, file_path);
     try stdout.writeStreamingAll(self.io, "\",\"size\":");
 
     var size_buf: [20]u8 = undefined;
@@ -296,23 +321,7 @@ fn processFileJson(self: *Self, stdout: File, file_path: []const u8) !void {
             line_num += 1;
 
             try stdout.writeStreamingAll(self.io, ",\"text\":\"");
-
-            for (line) |byte| {
-                switch (byte) {
-                    '"' => try stdout.writeStreamingAll(self.io, "\\\""),
-                    '\\' => try stdout.writeStreamingAll(self.io, "\\\\"),
-                    '\n' => {},
-                    '\r' => {},
-                    '\t' => try stdout.writeStreamingAll(self.io, "\\t"),
-                    else => {
-                        if (byte >= 0x20) {
-                            const char_buf = [1]u8{byte};
-                            try stdout.writeStreamingAll(self.io, &char_buf);
-                        }
-                    },
-                }
-            }
-
+            try self.writeEscaped(stdout, line);
             try stdout.writeStreamingAll(self.io, "\"}");
         }
     }
