@@ -67,7 +67,7 @@ pub fn main(init: std.process.Init) !void {
 }
 
 const help_text =
-    \\zcat v0.1.1 - A modern cat replacement
+    \\zcat v0.1.2 - A modern cat replacement
     \\
     \\Usage: zcat [OPTIONS] [FILE...]
     \\
@@ -91,4 +91,4 @@ const help_text =
     \\
 ;
 
-const version_text = "zcat 0.1.1\n";
+const version_text = "zcat 0.1.2\n";

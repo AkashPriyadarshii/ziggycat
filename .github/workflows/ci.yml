@@ -38,33 +38,41 @@ jobs:
       - name: Smoke tests
         shell: bash
         run: |
-          set -ex
+          set -e
           B="zig-out/bin/zcat$( [ "$RUNNER_OS" = "Windows" ] && echo .exe)"
-          "$B" --version
+          "$B" --version >/dev/null
+          # Checks write to files first: early-exit pipes EPIPE zcat (141)
+          # and pipefail would kill the step on Linux/macOS.
           # -n numbers blanks GNU-style, -b skips them
-          printf 'a\n\nb\n' | "$B" -n | grep -q '^     1\\ta'
-          printf 'a\n\nb\n' | "$B" -b >.ci-exp
+          printf 'a\n\nb\n' | "$B" -n >.ci-out
+          grep -q '^     1' .ci-out || { echo "-n mismatch"; exit 1; }
+          printf 'a\n\nb\n' | "$B" -b >.ci-out
           printf '     1\ta\n\n     2\tb\n' >.ci-want
-          cmp .ci-exp .ci-want || { echo "-b mismatch"; exit 1; }
+          cmp .ci-out .ci-want || { echo "-b mismatch"; exit 1; }
           # -T tabs as ^I, -E ends as $, -s squeezes blanks
-          printf '\tx\n' | "$B" -T | grep -q '\^I'
-          printf 'a\n' | "$B" -E | grep -q 'a\$'
-          printf 'a\n\n\nb\n' | "$B" -s | grep -c '^$' | grep -q '^1$'
+          printf '\tx\n' | "$B" -T >.ci-out; grep -q '\^I' .ci-out || { echo "-T mismatch"; exit 1; }
+          printf 'a\n' | "$B" -E >.ci-out; grep -q 'a\$' .ci-out || { echo "-E mismatch"; exit 1; }
+          printf 'a\n\n\nb\n' | "$B" -s >.ci-out
+          [ "$(grep -c '^$' .ci-out)" = "1" ] || { echo "-s mismatch"; exit 1; }
           # JSON + stdin
-          "$B" --json src/Cat.zig | grep -q '"files"'
-          printf 'hi' | "$B" --json | grep -q '"path":"-"'
+          "$B" --json src/Cat.zig >.ci-out; grep -q '"files"' .ci-out || { echo "json mismatch"; exit 1; }
+          printf 'hi' | "$B" --json >.ci-out; grep -q '"path":"-"' .ci-out || { echo "stdin json mismatch"; exit 1; }
           # errors: missing file and directory -> exit 1, message on stderr
           if "$B" /definitely/missing >/dev/null 2>.ci-err; then echo "missing file rc"; exit 1; fi
           grep -q 'no such file' .ci-err || { echo "missing file msg"; exit 1; }
           mkdir -p .ci-dir
           if "$B" .ci-dir >/dev/null 2>.ci-err; then echo "dir rc"; exit 1; fi
           grep -q 'is a directory' .ci-err || { echo "dir msg"; exit 1; }
-          # broken pipe -> 141 (SIGPIPE semantics), silent
+          # broken pipe -> 141 (SIGPIPE semantics), silent. Guarded: the 141
+          # pipeline rc would itself trip errexit+pipefail before inspection.
           if [ "$RUNNER_OS" != "Windows" ]; then
+            set +e
             yes x | head -c 2000000 | "$B" 2>/dev/null | head -c 1 >/dev/null
-            [ "${PIPESTATUS[2]}" -eq 141 ] || { echo "pipe rc ${PIPESTATUS[2]} (want 141)"; exit 1; }
+            rc=${PIPESTATUS[2]}
+            set -e
+            [ "$rc" -eq 141 ] || { echo "pipe rc $rc (want 141)"; exit 1; }
           fi
-          rm -rf .ci-dir .ci-exp .ci-want .ci-err
+          rm -rf .ci-dir .ci-out .ci-want .ci-err
 
       - name: Check binary size
         shell: bash
@@ -101,8 +109,29 @@ jobs:
         with:
           path: dist
 
-      - name: Create release
+      - name: Check if release already exists
+        id: rel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create release (version bumped)
+        if: steps.rel.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
           files: dist/zcat-*/zcat-*
+
+      - name: Attach assets only (release already exists)
+        if: steps.rel.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for f in dist/zcat-*/zcat-*; do
+            gh release upload "$GITHUB_REF_NAME" "$f" --clobber
+          done
