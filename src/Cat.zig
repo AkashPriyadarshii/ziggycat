@@ -50,6 +50,18 @@ const Out = struct {
     }
 };
 
+const fd_of = if (is_windows) struct {
+    // File.handle is a *anyopaque (HANDLE) on Windows.
+    fn get(h: anytype) usize {
+        return @intFromPtr(h);
+    }
+} else struct {
+    // File.handle is an fd_t (i32) on POSIX.
+    fn get(h: anytype) usize {
+        return @intCast(h);
+    }
+};
+
 // Direct fd I/O: std.posix lacks read/write on Windows, so bind kernel32
 // (NT layer only if needed later); POSIX uses std.posix. Avoids the extra
 // memcpy of the buffered std.Io path.
@@ -100,15 +112,58 @@ const raw_io = if (is_windows) struct {
                 else => return error.InputOutput,
             }
         }
+        if (n == 0) return error.InputOutput; // 0-byte "success" would spin writeAll
         return n;
     }
 } else struct {
+    // std.posix.write was removed in 0.16 (write goes through evented Io).
+    // No-libc raw write needs a direct syscall, arch + OS keyed to the CI
+    // matrix: x86_64-linux and aarch64-macos. macOS prefixes BSD numbers.
+    const sys_write = switch (builtin.cpu.arch) {
+        .x86_64 => struct {
+            fn call(fd: i32, buf: [*]const u8, len: usize) usize {
+                const nr = if (builtin.os.tag == .macos) @as(usize, 0x2000004) else @as(usize, 1);
+                return asm volatile ("syscall"
+                    : [ret] "={rax}" (-> usize),
+                    : [nr] "{rax}" (nr),
+                      [fd] "{rdi}" (@as(usize, @intCast(fd))),
+                      [p]  "{rsi}" (@as(usize, @intFromPtr(buf))),
+                      [n]  "{rdx}" (len),
+                    : .{ .rcx = true, .r11 = true, .memory = true }
+                );
+            }
+        },
+        .aarch64 => struct {
+            fn call(fd: i32, buf: [*]const u8, len: usize) usize {
+                const nr = if (builtin.os.tag == .macos) @as(usize, 0x2000004) else @as(usize, 64);
+                return asm volatile ("svc #0"
+                    : [ret] "={x0}" (-> usize),
+                    : [nr] "{x8}" (nr),
+                      [fd] "{x0}" (@as(usize, @intCast(fd))),
+                      [p]  "{x1}" (@as(usize, @intFromPtr(buf))),
+                      [n]  "{x2}" (len),
+                    : .{ .memory = true }
+                );
+            }
+        },
+        else => @compileError("unsupported arch"),
+    };
+
     fn read(hFile: usize, buf: []u8) !usize {
         return std.posix.read(@intCast(hFile), buf);
     }
 
     fn write(hFile: usize, bytes: []const u8) !usize {
-        return std.posix.write(@intCast(hFile), bytes);
+        // Raw syscalls return -errno on failure.
+        const ret: isize = @bitCast(sys_write.call(@intCast(hFile), bytes.ptr, bytes.len));
+        if (ret < 0) {
+            return switch (@as(u32, @truncate(@as(u64, @bitCast(-ret))))) {
+                32 => error.BrokenPipe, // EPIPE
+                else => error.InputOutput,
+            };
+        }
+        if (ret == 0 and bytes.len > 0) return error.InputOutput; // would spin writeAll
+        return @intCast(ret);
     }
 
     fn writeAll(hFile: usize, bytes: []const u8) !void {
@@ -162,7 +217,7 @@ fn needsLineMode(self: *const Self) bool {
 }
 
 pub fn processJson(self: *Self) !void {
-    var writer = Out.init(@intFromPtr(File.stdout().handle));
+    var writer = Out.init(fd_of.get(File.stdout().handle));
     const w = JsonWriter{ .writer = &writer };
 
     try w.writer.writeAll("{\"files\":[");
@@ -186,8 +241,8 @@ pub fn processJson(self: *Self) !void {
 
 fn copyStream(self: *Self, in: File, out: File) !void {
     _ = self;
-    const in_fd: usize = @intFromPtr(in.handle);
-    const out_fd: usize = @intFromPtr(out.handle);
+    const in_fd: usize = fd_of.get(in.handle);
+    const out_fd: usize = fd_of.get(out.handle);
     var buf: [262144]u8 = undefined;
     while (true) {
         const n = try raw_io.read(in_fd, &buf);
@@ -348,10 +403,10 @@ fn processStdin(self: *Self) !void {
         return self.copyStream(File.stdin(), File.stdout());
     }
 
-    const stdin_fd: usize = @intFromPtr(File.stdin().handle);
+    const stdin_fd: usize = fd_of.get(File.stdin().handle);
     var stdin_buf: [262144]u8 = undefined;
 
-    var stdout_writer = Out.init(@intFromPtr(File.stdout().handle));
+    var stdout_writer = Out.init(fd_of.get(File.stdout().handle));
 
     var pending = Pending{};
     defer pending.deinit(self.allocator);
@@ -397,9 +452,9 @@ fn processFile(self: *Self, file_path: []const u8) !void {
     }
 
     var file_buf: [262144]u8 = undefined;
-    const file_fd: usize = @intFromPtr(file.handle);
+    const file_fd: usize = fd_of.get(file.handle);
 
-    var stdout_writer = Out.init(@intFromPtr(File.stdout().handle));
+    var stdout_writer = Out.init(fd_of.get(File.stdout().handle));
 
     var pending = Pending{};
     defer pending.deinit(self.allocator);
@@ -418,7 +473,7 @@ fn processStdinJson(self: *Self, w: JsonWriter) !void {
     try w.writer.writeAll("{\"path\":\"-\",\"size\":null,\"lines\":[");
 
     var stdin_buf: [262144]u8 = undefined;
-    const stdin_fd: usize = @intFromPtr(File.stdin().handle);
+    const stdin_fd: usize = fd_of.get(File.stdin().handle);
 
     var pending = Pending{};
     defer pending.deinit(self.allocator);
@@ -567,7 +622,7 @@ fn processFileJson(self: *Self, w: JsonWriter, file_path: []const u8) !void {
     try w.writer.writeAll(",\"lines\":[");
 
     var file_buf: [262144]u8 = undefined;
-    const file_fd: usize = @intFromPtr(file.handle);
+    const file_fd: usize = fd_of.get(file.handle);
 
     var pending = Pending{};
     defer pending.deinit(self.allocator);
