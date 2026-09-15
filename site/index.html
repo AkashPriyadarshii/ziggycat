@@ -1,0 +1,267 @@
+<!doctype html>
+<!--
+  Design: 32-grotesque-grid (baseline grid, margin-floats, red #e5322d + blue #0a5cff)
+  Font note: DESIGN.md specifies Aktiv Grotesk; substituted with Helvetica/system
+  stack per project anti-slop rule.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zcat — fast cat replacement in pure Zig</title>
+<meta name="description" content="zcat is a drop-in cat replacement in pure Zig 0.16.0. Zero deps, no libc, byte-identical to GNU cat, 12-40% faster, --json mode for AI agents.">
+<meta property="og:title" content="zcat — fast cat replacement in pure Zig">
+<meta property="og:description" content="Byte-identical to GNU cat, 12-40% faster, zero deps. JSON output for AI agents.">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --primary:#e5322d; --accent:#0a5cff;
+  --ink:#0a0a0a; --body:#3d3d3d; --muted:#767676; --subtle:#a8a8a8;
+  --canvas:#ffffff; --s1:#f7f7f7; --s2:#eeeeee;
+  --hair:#dddddd; --hair-strong:#bfbfbf;
+  --inv:#0a0a0a; --inv-ink:#ffffff;
+  --ok:#16a34a; --err:#dc2626;
+  --grotesk:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --mono:ui-monospace,"Cascadia Code","JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--body);font:400 16px/1.5 var(--grotesk);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--primary);color:#fff}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+/* nav — 64px, hairline bottom */
+.nav{background:var(--canvas);border-bottom:1px solid var(--hair);position:sticky;top:0;z-index:20}
+.nav .wrap{display:flex;align-items:center;height:64px;gap:28px;font-size:14px}
+.brand{font-weight:600;color:var(--ink);font-size:16px;letter-spacing:.2px}
+.brand:hover{text-decoration:none}
+.brand b{color:var(--primary)}
+.nav nav{margin-left:auto;display:flex;gap:24px}
+.nav nav a{color:var(--body)}
+.nav nav a:hover{color:var(--ink)}
+/* hero — display-xl 84px/300, grid column structure */
+.hero{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:96px 0 88px}
+.hero-copy{grid-column:1/9}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.hero h1{font-size:84px;font-weight:300;line-height:.98;letter-spacing:-3px;color:var(--ink)}
+.hero h1 .r{color:var(--primary);font-weight:600}
+.hero .lede{font-size:18px;margin-top:24px;max-width:56ch}
+.hero code,.why p code,.step code,td code,.footnote code{font-family:var(--mono);font-size:.85em;background:var(--s2);padding:1px 6px;border-radius:2px;color:var(--ink)}
+.hero-meta{grid-column:9/13;align-self:end;border-top:4px solid var(--ink);padding-top:16px;font-size:14px;color:var(--muted)}
+.hero-meta b{display:block;color:var(--ink);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.cta{display:flex;gap:12px;margin-top:32px}
+.btn{font-size:14px;font-weight:600;letter-spacing:.2px;padding:12px 28px;border-radius:4px}
+.btn-p{background:var(--primary);color:#fff}
+.btn-p:hover{background:#c92a25;color:#fff;text-decoration:none}
+.btn-s{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-s:hover{background:var(--ink);color:#fff;text-decoration:none}
+.demo{grid-column:1/13;margin-top:56px;border:1px solid var(--hair);border-radius:4px;padding:32px;background:var(--s1)}
+.demo img{display:block;width:100%;height:auto}
+.demo figcaption{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.5px;color:var(--muted);margin-top:12px}
+/* stats — 4 columns on the baseline */
+.stats{grid-column:1/13;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:24px}
+.stat{border-top:2px solid var(--ink);padding-top:14px}
+.stat .n{font-size:40px;font-weight:300;letter-spacing:-1.2px;color:var(--ink);line-height:1.08}
+.stat .n em{font-style:normal;color:var(--primary);font-weight:600}
+.stat .l{font-size:14px;color:var(--muted);margin-top:4px}
+/* sections — margin-float numbers */
+section{padding:112px 0;border-top:1px solid var(--hair);position:relative}
+.sec{position:relative;padding-left:96px}
+.margin-float{position:absolute;left:0;top:-28px;font-size:120px;font-weight:300;line-height:.8;letter-spacing:-4px;color:var(--hair);user-select:none}
+.sec-eyebrow{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.sec h2{font-size:56px;font-weight:300;line-height:1.04;letter-spacing:-2px;color:var(--ink);max-width:16ch}
+.sec h2 b{font-weight:600}
+.sec-sub{font-size:18px;margin:16px 0 40px;max-width:62ch}
+.sec-sub code{font-family:var(--mono);font-size:.85em;background:var(--s2);padding:1px 6px;border-radius:2px;color:var(--ink)}
+.alt-weight h2{font-weight:600}
+.alt-weight h2 b{font-weight:300}
+/* why cards */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.why{background:var(--s1);border:1px solid var(--hair);border-radius:4px;padding:32px}
+.why h3{font-size:28px;font-weight:600;letter-spacing:-.5px;color:var(--ink);margin-bottom:8px}
+.why h3 .tick{color:var(--ok)}
+.why p{font-size:16px}
+/* tables */
+.tbl{border:1px solid var(--hair);border-radius:4px;overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--hair)}
+thead th{font-size:12px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);background:var(--s1)}
+tbody tr:last-child td{border-bottom:none}
+td code{font-family:var(--mono);font-size:.88em;color:var(--ink);background:var(--s2);padding:1px 6px;border-radius:2px}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.up{color:var(--ok);font-weight:600}
+.footnote{font-size:14px;color:var(--muted);margin-top:12px}
+.footnote code{font-family:var(--mono);font-size:.88em;background:var(--s2);padding:1px 6px;border-radius:2px;color:var(--ink)}
+/* json */
+.json-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.json-code{grid-column:1/8;background:var(--inv);color:#e8e8e8;border-radius:4px;padding:32px}
+.json-code pre{font-family:var(--mono);font-size:13.5px;line-height:1.65;overflow-x:auto;white-space:pre}
+.json-code .k{color:#ff8a80}.json-code .s{color:#7dd3a8}.json-code .n{color:#8ab4ff}
+.json-list{grid-column:8/13;list-style:none;display:flex;flex-direction:column;gap:16px}
+.json-list li{border-left:3px solid var(--primary);padding:4px 0 4px 16px;font-size:14px}
+.json-list li:nth-child(even){border-left-color:var(--accent)}
+.json-list code{font-family:var(--mono);font-size:12.5px;background:var(--s2);padding:1px 6px;border-radius:2px;color:var(--ink)}
+.copybar{font-size:12px;font-weight:500;letter-spacing:.5px;color:var(--muted);margin-bottom:16px}
+/* install */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.step{border-top:4px solid var(--ink);padding-top:18px}
+.step:nth-child(2){border-top-color:var(--primary)}
+.step:nth-child(3){border-top-color:var(--accent)}
+.step .no{font-size:12px;font-weight:600;letter-spacing:2px;color:var(--muted)}
+.step h3{font-size:28px;font-weight:600;letter-spacing:-.5px;color:var(--ink);margin:8px 0 12px}
+.step pre{font-family:var(--mono);font-size:13px;background:var(--s1);border:1px solid var(--hair);border-radius:4px;padding:16px;overflow-x:auto}
+.step p{font-size:14px;color:var(--muted);margin-bottom:12px}
+.step code{font-family:var(--mono);font-size:.88em;background:var(--s2);padding:1px 6px;border-radius:2px;color:var(--ink)}
+.warn{margin-top:24px;border:1px solid var(--hair-strong);border-radius:4px;padding:24px 28px;font-size:14px;background:var(--s1)}
+.warn code{font-family:var(--mono);font-size:.88em;background:var(--s2);padding:1px 6px;border-radius:2px;color:var(--ink)}
+/* trilogy */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.trio a{border:1px solid var(--hair);border-radius:4px;padding:32px;display:block;color:var(--body)}
+.trio a:hover{border-color:var(--ink);text-decoration:none}
+.trio .verb{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--primary)}
+.trio a:nth-child(2) .verb{color:var(--accent)}
+.trio a:nth-child(3) .verb{color:var(--ink)}
+.trio .name{display:block;font-size:28px;font-weight:600;letter-spacing:-.5px;color:var(--ink);margin:8px 0 4px}
+.trio .how{display:block;font-size:14px;color:var(--muted)}
+/* footer */
+footer{background:var(--inv);color:var(--inv-ink);padding:80px 32px;font-size:14px}
+footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:32px;padding:0;max-width:1200px}
+footer h4{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--subtle);margin-bottom:16px}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+footer a{color:#d4d4d4}footer a:hover{color:#fff}
+footer .by{grid-column:1/-1;color:var(--subtle);font-size:12px;letter-spacing:.5px;padding-top:24px;margin-top:8px;border-top:1px solid #2a2a2a;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+/* reveal: margin-floats slide in 300ms */
+.rv{opacity:0;transform:translateX(-12px);transition:opacity 300ms cubic-bezier(0.16,1,0.3,1),transform 300ms cubic-bezier(0.16,1,0.3,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}*{scroll-behavior:auto!important}}
+@media(max-width:1024px){.hero-copy{grid-column:1/13}.hero-meta{grid-column:1/13}.hero h1{font-size:56px}.margin-float{display:none}.sec{padding-left:0}.steps,.trio{grid-template-columns:1fr}.json-code,.json-list{grid-column:1/13}.why-grid{grid-template-columns:1fr}footer .wrap{grid-template-columns:1fr}}
+@media(max-width:768px){.nav nav{display:none}.hero{padding:64px 0}.hero h1{font-size:44px;letter-spacing:-2px}.sec h2{font-size:40px}.stats{grid-template-columns:1fr 1fr}section{padding:72px 0}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+<a class="brand" href="#top"><b>zcat</b>&nbsp;/&nbsp;v0.1.2</a>
+<nav><a href="#why">Why</a><a href="#flags">Flags</a><a href="#json">JSON</a><a href="#bench">Benchmarks</a><a href="#install">Install</a><a href="https://github.com/AkashPriyadarshii/zcat">GitHub</a></nav>
+</div></header>
+<main id="top">
+<div class="hero wrap">
+<div class="hero-copy">
+<p class="eyebrow">Pure Zig 0.16 &middot; Zero deps &middot; No libc</p>
+<h1>cat, but <span class="r">12&ndash;40% faster</span> and JSON-native.</h1>
+<p class="lede">zcat is a drop-in <code>cat</code> replacement in pure Zig. Byte-identical output on <code>-n -b -s -E -T</code>, plus a <code>--json</code> mode built for AI coding agents. One 502KB binary for Windows, macOS, Linux.</p>
+<div class="cta"><a class="btn btn-p" href="#install">Install in 3 commands</a><a class="btn btn-s" href="https://github.com/AkashPriyadarshii/zcat">View source</a></div>
+</div>
+<aside class="hero-meta"><b>Spec sheet</b>502KB binary &middot; 0 deps &middot; exit 141 on broken pipe &middot; GNU cat 9.x byte-identical</aside>
+<figure class="demo rv"><img src="assets/zcat-demo.svg" alt="Terminal demo of zcat -n"><figcaption><span>FIG. 01 — zcat -n src/main.zig</span><span>grid variant</span></figcaption></figure>
+<div class="stats">
+<div class="stat rv"><div class="n">502<em>KB</em></div><div class="l">single binary, no runtime</div></div>
+<div class="stat rv"><div class="n"><em>12&ndash;40%</em></div><div class="l">faster than GNU cat 9.x</div></div>
+<div class="stat rv"><div class="n">0</div><div class="l">dependencies, no libc</div></div>
+<div class="stat rv"><div class="n">141</div><div class="l">broken-pipe exit, SIGPIPE semantics</div></div>
+</div>
+</div>
+<section id="why"><div class="wrap sec">
+<span class="margin-float" aria-hidden="true">01</span>
+<p class="sec-eyebrow">01 &mdash; Why</p>
+<h2>Why <b>zcat</b> exists</h2>
+<p class="sec-sub">The most-piped command in every agent toolchain, optimized for agents that read files in loops.</p>
+<div class="why-grid">
+<div class="why rv"><h3><span class="tick">&#10003;</span> Byte-identical, provably</h3><p>Line modes verified byte-for-byte against coreutils <code>cat</code> 9.x. Scripts cannot tell the difference.</p></div>
+<div class="why rv"><h3><span class="tick">&#10003;</span> Agent-first JSON</h3><p>One flag: <code>path</code>, <code>size</code>, numbered <code>lines</code>, escape-safe text, error records that don't kill the batch.</p></div>
+<div class="why rv"><h3><span class="tick">&#10003;</span> Fast without tricks</h3><p>No mmap, no threads, no unsafe. Raw syscalls, one 256KB buffer, zero-copy line splitting. Flat memory at any input size.</p></div>
+<div class="why rv"><h3><span class="tick">&#10003;</span> Exit codes pipelines respect</h3><p><code>0</code> success, <code>1</code> file error (continues), <code>141</code> broken pipe, silent.</p></div>
+</div></div></section>
+<section id="flags"><div class="wrap sec alt-weight">
+<span class="margin-float" aria-hidden="true">02</span>
+<p class="sec-eyebrow">02 &mdash; Flags</p>
+<h2>Eight flags. <b>Combined shorts work.</b></h2>
+<p class="sec-sub"><code>zcat -nbsET file.txt</code> is valid. <code>-n</code>/<code>-b</code> are last-wins. A lone <code>-</code> reads stdin anywhere in the list.</p>
+<div class="tbl rv"><table><thead><tr><th>Short</th><th>Long</th><th>Effect</th></tr></thead><tbody>
+<tr><td><code>-n</code></td><td><code>--number</code></td><td>Number every output line, including blanks</td></tr>
+<tr><td><code>-b</code></td><td><code>--number-nonblank</code></td><td>Number non-empty lines only</td></tr>
+<tr><td><code>-s</code></td><td><code>--squeeze-blank</code></td><td>Collapse runs of empty lines into one</td></tr>
+<tr><td><code>-E</code></td><td><code>--show-ends</code></td><td>Append <code>$</code> to each line ending</td></tr>
+<tr><td><code>-T</code></td><td><code>--show-tabs</code></td><td>Render tabs as <code>^I</code></td></tr>
+<tr><td>&mdash;</td><td><code>--json</code></td><td>Structured output for agents</td></tr>
+<tr><td><code>-h</code></td><td><code>--help</code></td><td>Usage</td></tr>
+<tr><td><code>-V</code></td><td><code>--version</code></td><td>Version</td></tr>
+</tbody></table></div></div></section>
+<section id="json"><div class="wrap sec">
+<span class="margin-float" aria-hidden="true">03</span>
+<p class="sec-eyebrow">03 &mdash; JSON</p>
+<h2>Structured reads, <b>not text dumps.</b></h2>
+<p class="sec-sub"><code>zcat --json example.txt</code></p>
+<div class="json-grid">
+<div class="json-code rv"><p class="copybar">OUTPUT</p><pre><code><span class="k">{"files"</span>:[{"path":<span class="s">"example.txt"</span>,<span class="k">"size"</span>:<span class="n">2048</span>,"lines":[{"n":<span class="n">1</span>,"text":<span class="s">"first line"</span>}]}]}</code></pre></div>
+<ul class="json-list rv">
+<li>stdin: <code>path</code> is <code>"-"</code>, <code>size</code> is <code>null</code>.</li>
+<li>Controls escape as <code>\uXXXX</code>; quotes and backslashes escape.</li>
+<li>Unreadable files emit <code>{"path":"...","error":"..."}</code>, batch continues.</li>
+<li>Empty files: <code>"lines":[]</code>.</li>
+</ul>
+</div></div></section>
+<section id="bench"><div class="wrap sec alt-weight">
+<span class="margin-float" aria-hidden="true">04</span>
+<p class="sec-eyebrow">04 &mdash; Benchmarks</p>
+<h2>Faster than <b>GNU cat 9.x.</b></h2>
+<p class="sec-sub">96MB file, ReleaseFast, sink /dev/null, median of 3 runs.</p>
+<div class="tbl rv"><table><thead><tr><th>Operation</th><th class="num">zcat</th><th class="num">cat</th><th class="num">Speedup</th></tr></thead><tbody>
+<tr><td>Plain copy</td><td class="num">72ms</td><td class="num">82ms</td><td class="num up">+12%</td></tr>
+<tr><td><code>-n</code> number all</td><td class="num">112ms</td><td class="num">185ms</td><td class="num up">+40%</td></tr>
+<tr><td><code>-s</code> squeeze</td><td class="num">100ms</td><td class="num">145ms</td><td class="num up">+30%</td></tr>
+<tr><td><code>--json</code></td><td class="num">275ms</td><td class="num">&mdash;</td><td class="num">no counterpart</td></tr>
+</tbody></table></div></div></section>
+<section id="install"><div class="wrap sec">
+<span class="margin-float" aria-hidden="true">05</span>
+<p class="sec-eyebrow">05 &mdash; Install</p>
+<h2>Clone, <b>build, alias.</b></h2>
+<p class="sec-sub">Requires Zig 0.16.0. Binary lands at <code>zig-out/bin/zcat</code> (~502KB).</p>
+<div class="steps">
+<div class="step rv"><span class="no">STEP 01</span><h3>Clone</h3><pre>git clone https://github.com/AkashPriyadarshii/zcat.git
+cd zcat</pre></div>
+<div class="step rv"><span class="no">STEP 02</span><h3>Build</h3><p>Bench builds use ReleaseFast.</p><pre>zig build -Doptimize=ReleaseSmall</pre></div>
+<div class="step rv"><span class="no">STEP 03</span><h3>Alias</h3><pre>alias cat=zcat</pre></div>
+</div>
+<div class="warn rv"><strong>Windows note:</strong> in Git Bash, <code>zcat</code> collides with gzip's zcat. Use the full path (<code>~/.local/bin/zcat.exe</code>) there.</div>
+</div></section>
+<section id="trilogy"><div class="wrap sec alt-weight">
+<span class="margin-float" aria-hidden="true">06</span>
+<p class="sec-eyebrow">06 &mdash; Trilogy</p>
+<h2>Read, <b>find, orient.</b></h2>
+<p class="sec-sub">File reading, search, and orientation as token-budgeted CLI tools.</p>
+<div class="trio">
+<a class="rv" href="https://github.com/AkashPriyadarshii/zcat"><span class="verb">Read</span><span class="name">zcat</span><span class="how">a file, structured — you are here</span></a>
+<a class="rv" href="https://github.com/AkashPriyadarshii/rustygrep"><span class="verb">Find</span><span class="name">rustygrep</span><span class="how">a needle, token-cheap</span></a>
+<a class="rv" href="https://github.com/AkashPriyadarshii/repomap"><span class="verb">Orient</span><span class="name">repomap</span><span class="how">where am I, what's here</span></a>
+</div></div></section>
+</main>
+<footer><div class="wrap">
+<div><h4>Ecosystem</h4><ul>
+<li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
+<li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
+<li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
+<li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
+</ul></div>
+<div><h4>Author</h4><ul>
+<li>Akash Priyadarshi — Patna, Bihar, India</li>
+<li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
+<li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
+<li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
+<li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
+</ul></div>
+<div><h4>Social</h4><ul>
+<li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
+<li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
+<li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
+<li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
+</ul></div>
+<div class="by"><span>zcat — MIT. Pure Zig 0.16.0. Grid variant.</span><span>Concept, design &amp; code by Akash Priyadarshi.</span></div>
+</div></footer>
+<script>
+const els=document.querySelectorAll(".rv");
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
+const io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}},{threshold:.12});
+els.forEach(el=>io.observe(el));}else els.forEach(el=>el.classList.add("in"));
+</script>
+</body>
+</html>
