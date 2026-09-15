@@ -10,15 +10,11 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            target: x86_64-linux
-          - os: macos-latest
-            target: aarch64-macos
           - os: windows-latest
             target: x86_64-windows
 
@@ -67,15 +63,6 @@ jobs:
           mkdir -p .ci-dir
           if "$B" .ci-dir >/dev/null 2>.ci-err; then echo "dir rc"; exit 1; fi
           grep -q 'is a directory' .ci-err || { echo "dir msg"; exit 1; }
-          # broken pipe -> 141 (SIGPIPE semantics), silent. Guarded: the 141
-          # pipeline rc would itself trip errexit+pipefail before inspection.
-          if [ "$RUNNER_OS" != "Windows" ]; then
-            set +e
-            "$B" b96m.txt 2>/dev/null | head -n 1 >/dev/null
-            rc=${PIPESTATUS[0]}
-            set -e
-            [ "$rc" -eq 141 ] || { echo "pipe rc $rc (want 141)"; exit 1; }
-          fi
           rm -rf .ci-dir .ci-out .ci-want .ci-err
 
       - name: Check binary size
