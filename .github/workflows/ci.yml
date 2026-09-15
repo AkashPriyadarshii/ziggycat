@@ -42,10 +42,10 @@ jobs:
           B="zig-out/bin/zcat$( [ "$RUNNER_OS" = "Windows" ] && echo .exe)"
           "$B" --version
           # -n numbers blanks GNU-style, -b skips them
-          printf 'a\n\nb\n' | "$B" -n | grep -q '^     1	a'
-          printf 'a\n\nb\n' | "$B" -b >.ci-out; [ "$(cat .ci-out)" = "a
-
-b" ]
+          printf 'a\n\nb\n' | "$B" -n | grep -q '^     1\\ta'
+          printf 'a\n\nb\n' | "$B" -b >.ci-exp
+          printf '     1\ta\n\n     2\tb\n' >.ci-want
+          cmp .ci-exp .ci-want || { echo "-b mismatch"; exit 1; }
           # -T tabs as ^I, -E ends as $, -s squeezes blanks
           printf '\tx\n' | "$B" -T | grep -q '\^I'
           printf 'a\n' | "$B" -E | grep -q 'a\$'
@@ -54,17 +54,17 @@ b" ]
           "$B" --json src/Cat.zig | grep -q '"files"'
           printf 'hi' | "$B" --json | grep -q '"path":"-"'
           # errors: missing file and directory -> exit 1, message on stderr
-          "$B" /definitely/missing >/dev/null 2> .ci-err; [ $? -eq 1 ] || { echo "missing file rc"; exit 1; }
+          if "$B" /definitely/missing >/dev/null 2>.ci-err; then echo "missing file rc"; exit 1; fi
           grep -q 'no such file' .ci-err || { echo "missing file msg"; exit 1; }
           mkdir -p .ci-dir
-          "$B" .ci-dir >/dev/null 2> .ci-err; [ $? -eq 1 ] || { echo "dir rc"; exit 1; }
+          if "$B" .ci-dir >/dev/null 2>.ci-err; then echo "dir rc"; exit 1; fi
           grep -q 'is a directory' .ci-err || { echo "dir msg"; exit 1; }
           # broken pipe -> 141 (SIGPIPE semantics), silent
           if [ "$RUNNER_OS" != "Windows" ]; then
             yes x | head -c 2000000 | "$B" 2>/dev/null | head -c 1 >/dev/null
             [ "${PIPESTATUS[1]}" -eq 141 ] || { echo "pipe rc ${PIPESTATUS[1]}"; exit 1; }
           fi
-          rm -rf .ci-dir .ci-out .ci-err
+          rm -rf .ci-dir .ci-exp .ci-want .ci-err
 
       - name: Check binary size
         shell: bash
