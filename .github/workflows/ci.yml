@@ -40,9 +40,14 @@ jobs:
         shell: bash
         run: |
           B="zig-out/bin/zcat"
-          set +e
-          "$B" --version; echo "VER=$?"
-          printf 'hi\n' | "$B"; echo "CAT=$?"
+          set +e -o pipefail
+          printf 'a\n\nb\n' | "$B" -n >.ci-out; echo "N=$? bytes=$(wc -c < .ci-out) content=[$(head -c 80 .ci-out | od -c | head -3)]"
+          printf 'a\n\nb\n' | "$B" -b >.ci-out; echo "B=$?"
+          printf '     1\ta\n\n     2\tb\n' >.ci-want; cmp .ci-out .ci-want; echo "CMP=$?"
+          printf '\tx\n' | "$B" -T >.ci-out; echo "T=$?"
+          printf 'a\n' | "$B" -E >.ci-out; echo "E=$?"
+          printf 'a\n\n\nb\n' | "$B" -s >.ci-out; echo "S=$?"
+          "$B" --json src/Cat.zig >.ci-out; echo "J=$?"
           exit 0
 
       - name: Smoke tests
