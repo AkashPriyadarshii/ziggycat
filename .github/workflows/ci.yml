@@ -35,6 +35,16 @@ jobs:
       - name: Test
         run: zig build test
 
+      - name: posix-diag
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          B="zig-out/bin/zcat"
+          set +e
+          "$B" --version; echo "VER=$?"
+          printf 'hi\n' | "$B"; echo "CAT=$?"
+          exit 0
+
       - name: Smoke tests
         shell: bash
         run: |
