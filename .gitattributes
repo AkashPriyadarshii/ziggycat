@@ -1,0 +1,16 @@
+# Exclude non-core files from GitHub language stats and code indexing.
+# Keeps the repo classified as what it is: pure Zig.
+
+# Marketing site (vendored web asset, not project code)
+site/** linguist-vendored
+
+# Web/workflow/shell/script files anywhere in the repo
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+*.sh linguist-vendored
+*.ps1 linguist-vendored
+*.bat linguist-vendored
+*.py linguist-vendored
+*.yml linguist-vendored
+*.yaml linguist-vendored
