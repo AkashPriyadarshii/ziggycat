@@ -41,28 +41,22 @@ pub fn main(init: std.process.Init) !void {
 
     if (args.json_output) {
         cat.processJson() catch |err| switch (err) {
-            error.ReadFailed => {
-                try File.stderr().writeStreamingAll(io, "zcat: read error\n");
+            error.BrokenPipe => std.process.exit(141), // SIGPIPE semantics
+            error.InputOutput => {
+                try File.stderr().writeStreamingAll(io, "zcat: i/o error\n");
                 std.process.exit(1);
             },
             else => return err,
         };
     } else {
         cat.process() catch |err| switch (err) {
-            error.FileNotFound => {
-                try File.stderr().writeStreamingAll(io, "zcat: no such file or directory\n");
+            error.OutOfMemory => {
+                try File.stderr().writeStreamingAll(io, "zcat: out of memory\n");
                 std.process.exit(1);
             },
-            error.AccessDenied => {
-                try File.stderr().writeStreamingAll(io, "zcat: permission denied\n");
-                std.process.exit(1);
-            },
-            error.IsDir => {
-                try File.stderr().writeStreamingAll(io, "zcat: is a directory\n");
-                std.process.exit(1);
-            },
-            error.ReadFailed => {
-                try File.stderr().writeStreamingAll(io, "zcat: read error\n");
+            error.BrokenPipe => std.process.exit(141), // SIGPIPE semantics
+            error.InputOutput => {
+                try File.stderr().writeStreamingAll(io, "zcat: i/o error\n");
                 std.process.exit(1);
             },
             else => return err,

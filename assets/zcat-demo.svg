@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400" role="img" aria-label="zcat terminal demo">
+  <!-- canvas -->
+  <rect width="720" height="400" fill="#0f1114"/>
+  <!-- terminal window -->
+  <rect x="28" y="24" width="664" height="352" rx="12" fill="#161a1e" stroke="#2a3138" stroke-width="1.5"/>
+  <!-- title bar -->
+  <circle cx="56" cy="48" r="6" fill="#4a3f3a"/>
+  <circle cx="80" cy="48" r="6" fill="#5a5148"/>
+  <circle cx="104" cy="48" r="6" fill="#6a6055"/>
+  <text x="360" y="54" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#827c74" text-anchor="middle">zcat -n src/main.zig</text>
+  <!-- prompt line -->
+  <text x="44" y="96" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" fill="#e8590c">$</text>
+  <text x="58" y="96" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15" fill="#ece8e2">zcat -n src/main.zig</text>
+  <!-- output lines: number (muted) + code (warm) -->
+  <g font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="15">
+    <text x="44" y="136" fill="#827c74">     1</text>
+    <text x="110" y="136" fill="#b6b0a8">const std = @import("std");</text>
+    <text x="44" y="166" fill="#827c74">     2</text>
+    <text x="110" y="166" fill="#b6b0a8">const Io = std.Io;</text>
+    <text x="44" y="196" fill="#827c74">     3</text>
+    <text x="110" y="196" fill="#b6b0a8">const File = Io.File;</text>
+    <text x="44" y="226" fill="#827c74">     4</text>
+    <text x="110" y="226" fill="#b6b0a8">const Cat = @import("Cat.zig");</text>
+    <text x="44" y="256" fill="#827c74">     5</text>
+    <text x="110" y="256" fill="#b6b0a8"></text>
+    <text x="44" y="286" fill="#827c74">     6</text>
+    <text x="110" y="286" fill="#b6b0a8">pub fn main(init: std.process.Init) !void {</text>
+    <text x="44" y="316" fill="#827c74">     7</text>
+    <text x="110" y="316" fill="#b6b0a8">    const io = init.io;</text>
+    <text x="44" y="346" fill="#827c74">     8</text>
+    <text x="110" y="346" fill="#b6b0a8">    const gpa = init.gpa;</text>
+  </g>
+  <!-- blinking cursor -->
+  <rect x="472" y="330" width="9" height="18" fill="#e8590c" opacity="0.9"/>
+</svg>

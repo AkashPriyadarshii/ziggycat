@@ -1,21 +1,138 @@
 const std = @import("std");
+const builtin = @import("builtin");
 const Io = std.Io;
 const File = Io.File;
 const Dir = Io.Dir;
 const Args = @import("Args.zig");
 
+const is_windows = builtin.os.tag == .windows;
+
+// Buffered stdout sink backed by raw kernel32/posix writes. std.Io's writer
+// flushes everything in one NtWriteFile, which MSYS pipes reject above 64KB;
+// raw WriteFile of <=32KB chunks works everywhere.
+const Out = struct {
+    data: [65536]u8 = undefined,
+    len: usize = 0,
+    fd: usize,
+    // MSYS pipes accept raw WriteFile of any size, but keep chunks modest.
+    const chunk_cap: usize = 60000;
+
+    fn init(fd: usize) Out {
+        return .{ .fd = fd };
+    }
+
+    fn writeAll(self: *Out, bytes: []const u8) !void {
+        var rest = bytes;
+        while (true) {
+            const free = chunk_cap - self.len;
+            if (rest.len <= free) {
+                @memcpy(self.data[self.len..][0..rest.len], rest);
+                self.len += rest.len;
+                return;
+            }
+            @memcpy(self.data[self.len..][0..free], rest[0..free]);
+            self.len = chunk_cap;
+            try self.flush();
+            rest = rest[free..];
+        }
+    }
+
+    fn writeByte(self: *Out, byte: u8) !void {
+        if (self.len == chunk_cap) try self.flush();
+        self.data[self.len] = byte;
+        self.len += 1;
+    }
+
+    fn flush(self: *Out) !void {
+        if (self.len == 0) return;
+        try raw_io.writeAll(self.fd, self.data[0..self.len]);
+        self.len = 0;
+    }
+};
+
+// Direct fd I/O: std.posix lacks read/write on Windows, so bind kernel32
+// (NT layer only if needed later); POSIX uses std.posix. Avoids the extra
+// memcpy of the buffered std.Io path.
+const raw_io = if (is_windows) struct {
+    extern "kernel32" fn ReadFile(
+        hFile: usize,
+        lpBuffer: [*]u8,
+        nNumberOfBytesToRead: u32,
+        lpNumberOfBytesRead: *u32,
+        lpOverlapped: ?*anyopaque,
+    ) callconv(.winapi) i32;
+    extern "kernel32" fn WriteFile(
+        hFile: usize,
+        lpBuffer: [*]const u8,
+        nNumberOfBytesToWrite: u32,
+        lpNumberOfBytesWritten: *u32,
+        lpOverlapped: ?*anyopaque,
+    ) callconv(.winapi) i32;
+    extern "kernel32" fn GetLastError() callconv(.winapi) u32;
+
+    const ERROR_BROKEN_PIPE: u32 = 0x6D;
+    const ERROR_NO_DATA: u32 = 0xE8;
+
+    fn read(hFile: usize, buf: []u8) !usize {
+        var n: u32 = 0;
+        if (ReadFile(hFile, buf.ptr, @intCast(buf.len), &n, null) == 0) {
+            switch (GetLastError()) {
+                ERROR_BROKEN_PIPE, ERROR_NO_DATA => return 0,
+                else => return error.InputOutput,
+            }
+        }
+        return n;
+    }
+
+    fn writeAll(hFile: usize, bytes: []const u8) !void {
+        var rest = bytes;
+        while (rest.len > 0) {
+            const n = try write(hFile, rest);
+            rest = rest[n..];
+        }
+    }
+
+    fn write(hFile: usize, bytes: []const u8) !usize {
+        var n: u32 = 0;
+        if (WriteFile(hFile, bytes.ptr, @intCast(bytes.len), &n, null) == 0) {
+            switch (GetLastError()) {
+                ERROR_BROKEN_PIPE, ERROR_NO_DATA => return error.BrokenPipe,
+                else => return error.InputOutput,
+            }
+        }
+        return n;
+    }
+} else struct {
+    fn read(hFile: usize, buf: []u8) !usize {
+        return std.posix.read(@intCast(hFile), buf);
+    }
+
+    fn write(hFile: usize, bytes: []const u8) !usize {
+        return std.posix.write(@intCast(hFile), bytes);
+    }
+
+    fn writeAll(hFile: usize, bytes: []const u8) !void {
+        var rest = bytes;
+        while (rest.len > 0) {
+            const n = try write(hFile, rest);
+            rest = rest[n..];
+        }
+    }
+};
+
 const Self = @This();
 
 io: Io,
+allocator: std.mem.Allocator,
 args: *const Args,
 line_number: u64 = 1,
 prev_was_blank: bool = false,
 any_file_error: bool = false,
 
 pub fn init(allocator: std.mem.Allocator, io: Io, args: *const Args) !Self {
-    _ = allocator;
     return Self{
         .io = io,
+        .allocator = allocator,
         .args = args,
     };
 }
@@ -30,191 +147,350 @@ pub fn process(self: *Self) !void {
         try self.processStdin();
     } else {
         for (self.args.files.items) |file_path| {
-            try self.processFile(file_path);
+            if (std.mem.eql(u8, file_path, "-")) {
+                try self.processStdin();
+            } else {
+                try self.processFile(file_path);
+            }
         }
     }
+}
+
+fn needsLineMode(self: *const Self) bool {
+    return self.args.number or self.args.number_nonblank or
+        self.args.squeeze_blank or self.args.show_ends or self.args.show_tabs;
 }
 
 pub fn processJson(self: *Self) !void {
-    const stdout = File.stdout();
+    var writer = Out.init(@intFromPtr(File.stdout().handle));
+    const w = JsonWriter{ .writer = &writer };
 
-    try stdout.writeStreamingAll(self.io, "{\"files\":[");
+    try w.writer.writeAll("{\"files\":[");
 
     if (self.args.files.items.len == 0) {
-        try self.processStdinJson(stdout);
+        try self.processStdinJson(w);
     } else {
         for (self.args.files.items, 0..) |file_path, i| {
-            if (i > 0) try stdout.writeStreamingAll(self.io, ",");
-            try self.processFileJson(stdout, file_path);
-        }
-    }
-
-    try stdout.writeStreamingAll(self.io, "]}\n");
-}
-
-fn processStdin(self: *Self) !void {
-    var stdin_buf: [8192]u8 = undefined;
-    var stdin_file = File.stdin();
-    var stdin_reader = stdin_file.readerStreaming(self.io, &stdin_buf);
-
-    var stdout_file = File.stdout();
-    var stdout_buf: [8192]u8 = undefined;
-    var stdout_writer = stdout_file.writer(self.io, &stdout_buf);
-
-    while (true) {
-        var bufs: [1][]u8 = .{&stdin_buf};
-        const bytes_read = stdin_reader.interface.readVec(&bufs) catch |err| switch (err) {
-            error.EndOfStream => break,
-            else => return err,
-        };
-        if (bytes_read == 0) break;
-
-        const content = stdin_buf[0..bytes_read];
-        var lines = std.mem.splitScalar(u8, content, '\n');
-
-        while (lines.next()) |line| {
-            const is_last = lines.index == null;
-            if (is_last) {
-                const has_newline = content.len > 0 and content[content.len - 1] == '\n';
-                try self.processLine(&stdout_writer, line, has_newline);
+            if (i > 0) try w.writer.writeAll(",");
+            if (std.mem.eql(u8, file_path, "-")) {
+                try self.processStdinJson(w);
             } else {
-                try self.processLine(&stdout_writer, line, true);
+                try self.processFileJson(w, file_path);
             }
         }
     }
 
+    try w.writer.writeAll("]}\n");
+    try writer.flush();
+}
+
+fn copyStream(self: *Self, in: File, out: File) !void {
+    _ = self;
+    const in_fd: usize = @intFromPtr(in.handle);
+    const out_fd: usize = @intFromPtr(out.handle);
+    var buf: [262144]u8 = undefined;
+    while (true) {
+        const n = try raw_io.read(in_fd, &buf);
+        if (n == 0) break;
+        var off: usize = 0;
+        while (off < n) {
+            const w = try raw_io.write(out_fd, buf[off..n]);
+            off += w;
+        }
+    }
+}
+
+// Read chunked bytes, accumulate into `pending` until a '\n' or EOF, then
+// emit complete lines. Guarantees a line spanning chunk boundaries is
+// processed exactly once, with correct newline state.
+const Pending = struct {
+    buf: std.ArrayList(u8) = .empty,
+
+    fn deinit(self: *Pending, allocator: std.mem.Allocator) void {
+        self.buf.deinit(allocator);
+    }
+};
+
+fn feed(
+    self: *Self,
+    pending: *Pending,
+    writer: anytype,
+    bytes: []const u8,
+    eof: bool,
+) !void {
+    var start: usize = 0;
+
+    // A partial line carried from the previous chunk; join with the first
+    // segment of this chunk (small, typically < line length).
+    if (pending.buf.items.len > 0) {
+        if (std.mem.indexOfScalar(u8, bytes, '\n')) |nl| {
+            const total = pending.buf.items.len + nl;
+            var scratch: [4096]u8 = undefined;
+            const line = if (total <= scratch.len) blk: {
+                @memcpy(scratch[0..pending.buf.items.len], pending.buf.items);
+                @memcpy(scratch[pending.buf.items.len..total], bytes[0..nl]);
+                break :blk scratch[0..total];
+            } else blk: {
+                try pending.buf.appendSlice(self.allocator, bytes[0..nl]);
+                break :blk pending.buf.items;
+            };
+            pending.buf.clearRetainingCapacity();
+            try self.processLine(writer, line, true);
+            start = nl + 1;
+        } else {
+            // No newline: the partial continues in the next chunk... unless
+            // this is the final chunk, in which case flush it as the last line.
+            if (eof) {
+                try self.processLine(writer, pending.buf.items, false);
+                pending.buf.clearRetainingCapacity();
+                return;
+            }
+            try pending.buf.appendSlice(self.allocator, bytes);
+            return;
+        }
+    }
+
+    // Complete lines wholly inside this chunk: no copies.
+    while (std.mem.indexOfScalarPos(u8, bytes, start, '\n')) |nl| {
+        try self.processLine(writer, bytes[start..nl], true);
+        start = nl + 1;
+    }
+
+    // Unterminated tail becomes the new pending partial.
+    pending.buf.clearRetainingCapacity();
+    if (start < bytes.len) {
+        try pending.buf.appendSlice(self.allocator, bytes[start..]);
+    }
+
+    if (eof and pending.buf.items.len > 0) {
+        try self.processLine(writer, pending.buf.items, false);
+        pending.buf.clearRetainingCapacity();
+    }
+}
+
+const JsonWriter = struct {
+    writer: *Out,
+};
+
+fn feedJson(
+    self: *Self,
+    pending: *Pending,
+    w: JsonWriter,
+    bytes: []const u8,
+    eof: bool,
+    line_num: *u64,
+    first_line: *bool,
+) !void {
+    var start: usize = 0;
+
+    if (pending.buf.items.len > 0) {
+        if (std.mem.indexOfScalar(u8, bytes, '\n')) |nl| {
+            const total = pending.buf.items.len + nl;
+            var scratch: [4096]u8 = undefined;
+            const line = if (total <= scratch.len) blk: {
+                @memcpy(scratch[0..pending.buf.items.len], pending.buf.items);
+                @memcpy(scratch[pending.buf.items.len..total], bytes[0..nl]);
+                break :blk scratch[0..total];
+            } else blk: {
+                try pending.buf.appendSlice(self.allocator, bytes[0..nl]);
+                break :blk pending.buf.items;
+            };
+            pending.buf.clearRetainingCapacity();
+            try self.writeJsonLine(w, line, line_num, first_line);
+            start = nl + 1;
+        } else {
+            if (eof) {
+                try self.writeJsonLine(w, pending.buf.items, line_num, first_line);
+                pending.buf.clearRetainingCapacity();
+                return;
+            }
+            try pending.buf.appendSlice(self.allocator, bytes);
+            return;
+        }
+    }
+
+    while (std.mem.indexOfScalarPos(u8, bytes, start, '\n')) |nl| {
+        try self.writeJsonLine(w, bytes[start..nl], line_num, first_line);
+        start = nl + 1;
+    }
+
+    pending.buf.clearRetainingCapacity();
+    if (start < bytes.len) {
+        try pending.buf.appendSlice(self.allocator, bytes[start..]);
+    }
+
+    if (eof and pending.buf.items.len > 0) {
+        try self.writeJsonLine(w, pending.buf.items, line_num, first_line);
+        pending.buf.clearRetainingCapacity();
+    }
+}
+
+fn writeJsonLine(self: *Self, w: JsonWriter, line: []const u8, line_num: *u64, first_line: *bool) !void {
+    if (!first_line.*) {
+        try w.writer.writeAll(",");
+    }
+    first_line.* = false;
+
+    try w.writer.writeAll("{\"n\":");
+
+    var num_buf: [20]u8 = undefined;
+    const num_str = std.fmt.bufPrint(&num_buf, "{d}", .{line_num.*}) catch "1";
+    try w.writer.writeAll(num_str);
+    line_num.* += 1;
+
+    try w.writer.writeAll(",\"text\":\"");
+    try self.writeEscaped(w.writer, line);
+    try w.writer.writeAll("\"}");
+}
+
+fn processStdin(self: *Self) !void {
+    if (!self.needsLineMode()) {
+        return self.copyStream(File.stdin(), File.stdout());
+    }
+
+    const stdin_fd: usize = @intFromPtr(File.stdin().handle);
+    var stdin_buf: [262144]u8 = undefined;
+
+    var stdout_writer = Out.init(@intFromPtr(File.stdout().handle));
+
+    var pending = Pending{};
+    defer pending.deinit(self.allocator);
+
+    while (true) {
+        const bytes_read = try raw_io.read(stdin_fd, &stdin_buf);
+        if (bytes_read == 0) break;
+        try self.feed(&pending, &stdout_writer, stdin_buf[0..bytes_read], false);
+    }
+
+    try self.feed(&pending, &stdout_writer, "", true);
     try stdout_writer.flush();
 }
 
-fn processStdinJson(self: *Self, stdout: File) !void {
-    var stdin_buf: [8192]u8 = undefined;
-    var stdin_file = File.stdin();
-    var stdin_reader = stdin_file.readerStreaming(self.io, &stdin_buf);
+fn processFile(self: *Self, file_path: []const u8) !void {
+    var file = Dir.openFile(
+        .cwd(), self.io, file_path,
+        .{ .mode = .read_only },
+    ) catch |err| {
+        self.any_file_error = true;
+        try self.reportFileError(file_path, err);
+        return;
+    };
+    defer file.close(self.io);
 
-    try stdout.writeStreamingAll(self.io, "{\"path\":\"-\",\"size\":null,\"lines\":[");
+    const st = file.stat(self.io) catch {
+        self.any_file_error = true;
+        try self.reportFileError(file_path, error.InputOutput);
+        return;
+    };
+    if (st.kind == .directory) {
+        self.any_file_error = true;
+        try self.reportFileError(file_path, error.IsDir);
+        return;
+    }
+
+    if (!self.needsLineMode()) {
+        return self.copyStream(file, File.stdout()) catch |err| {
+        self.any_file_error = true;
+        try self.reportFileError(file_path, err);
+        return;
+    };
+    }
+
+    var file_buf: [262144]u8 = undefined;
+    const file_fd: usize = @intFromPtr(file.handle);
+
+    var stdout_writer = Out.init(@intFromPtr(File.stdout().handle));
+
+    var pending = Pending{};
+    defer pending.deinit(self.allocator);
+
+    while (true) {
+        const bytes_read = try raw_io.read(file_fd, &file_buf);
+        if (bytes_read == 0) break;
+        try self.feed(&pending, &stdout_writer, file_buf[0..bytes_read], false);
+    }
+
+    try self.feed(&pending, &stdout_writer, "", true);
+    try stdout_writer.flush();
+}
+
+fn processStdinJson(self: *Self, w: JsonWriter) !void {
+    try w.writer.writeAll("{\"path\":\"-\",\"size\":null,\"lines\":[");
+
+    var stdin_buf: [262144]u8 = undefined;
+    const stdin_fd: usize = @intFromPtr(File.stdin().handle);
+
+    var pending = Pending{};
+    defer pending.deinit(self.allocator);
 
     var line_num: u64 = 1;
     var first_line = true;
 
     while (true) {
-        var bufs: [1][]u8 = .{&stdin_buf};
-        const bytes_read = stdin_reader.interface.readVec(&bufs) catch |err| switch (err) {
-            error.EndOfStream => break,
-            else => return err,
-        };
+        const bytes_read = try raw_io.read(stdin_fd, &stdin_buf);
         if (bytes_read == 0) break;
-
-        const content = stdin_buf[0..bytes_read];
-        var lines = std.mem.splitScalar(u8, content, '\n');
-
-        while (lines.next()) |line| {
-            const is_last = lines.index == null;
-            if (is_last and content.len > 0 and content[content.len - 1] == '\n') {
-                break;
-            }
-
-            if (!first_line) {
-                try stdout.writeStreamingAll(self.io, ",");
-            }
-            first_line = false;
-
-            try stdout.writeStreamingAll(self.io, "{\"n\":");
-
-            var num_buf: [20]u8 = undefined;
-            const num_str = std.fmt.bufPrint(&num_buf, "{d}", .{line_num}) catch "1";
-            try stdout.writeStreamingAll(self.io, num_str);
-            line_num += 1;
-
-            try stdout.writeStreamingAll(self.io, ",\"text\":\"");
-            try self.writeEscaped(stdout, line);
-            try stdout.writeStreamingAll(self.io, "\"}");
-        }
+        try self.feedJson(&pending, w, stdin_buf[0..bytes_read], false, &line_num, &first_line);
     }
 
-    try stdout.writeStreamingAll(self.io, "]}");
+    try self.feedJson(&pending, w, "", true, &line_num, &first_line);
+
+    try w.writer.writeAll("]}");
 }
 
-fn writeErrorRecord(self: *Self, stdout: File, file_path: []const u8, err: anyerror) !void {
+fn writeErrorRecord(self: *Self, w: JsonWriter, file_path: []const u8, err: anyerror) !void {
     const msg = switch (err) {
         error.FileNotFound => "no such file or directory",
         error.AccessDenied => "permission denied",
         error.IsDir => "is a directory",
         else => "read failed",
     };
-    try stdout.writeStreamingAll(self.io, "{\"path\":\"");
-    try self.writeEscaped(stdout, file_path);
-    try stdout.writeStreamingAll(self.io, "\",\"error\":\"");
-    try stdout.writeStreamingAll(self.io, msg);
-    try stdout.writeStreamingAll(self.io, "\"}");
+    try w.writer.writeAll("{\"path\":\"");
+    try self.writeEscaped(w.writer, file_path);
+    try w.writer.writeAll("\",\"error\":\"");
+    try w.writer.writeAll(msg);
+    try w.writer.writeAll("\"}");
 }
 
-fn writeEscaped(self: *Self, stdout: File, bytes: []const u8) !void {
+fn writeEscaped(_: *Self, writer: *Out, bytes: []const u8) !void {
     for (bytes) |byte| {
         switch (byte) {
-            '"' => try stdout.writeStreamingAll(self.io, "\\\""),
-            '\\' => try stdout.writeStreamingAll(self.io, "\\\\"),
+            '"' => try writer.writeAll("\\\""),
+            '\\' => try writer.writeAll("\\\\"),
             '\n' => {},
-            '\r' => {},
-            '\t' => try stdout.writeStreamingAll(self.io, "\\t"),
+            '\r' => try writer.writeAll("\\r"),
+            '\t' => try writer.writeAll("\\t"),
             else => {
                 if (byte >= 0x20) {
-                    const char_buf = [1]u8{byte};
-                    try stdout.writeStreamingAll(self.io, &char_buf);
+                    try writer.writeByte(byte);
+                } else {
+                    var esc_buf: [6]u8 = undefined;
+                    const esc = std.fmt.bufPrint(&esc_buf, "\\u{x:0>4}", .{byte}) catch "\\ufffd";
+                    try writer.writeAll(esc);
                 }
             },
         }
     }
 }
 
-fn processFile(self: *Self, file_path: []const u8) !void {
-    var file = try Dir.openFileAbsolute(
-        self.io,
-        file_path,
-        .{ .mode = .read_only },
-    );
-    defer file.close(self.io);
-
-    var file_buf: [8192]u8 = undefined;
-    var file_reader = file.reader(self.io, &file_buf);
-
-    var stdout_file = File.stdout();
-    var stdout_buf: [8192]u8 = undefined;
-    var stdout_writer = stdout_file.writer(self.io, &stdout_buf);
-
-    var last_was_newline = true;
-
-    while (true) {
-        var bufs: [1][]u8 = .{&file_buf};
-        const bytes_read = file_reader.interface.readVec(&bufs) catch |err| switch (err) {
-            error.EndOfStream => break,
-            else => return err,
-        };
-        if (bytes_read == 0) break;
-
-        const content = file_buf[0..bytes_read];
-        var lines = std.mem.splitScalar(u8, content, '\n');
-
-        while (lines.next()) |line| {
-            const is_last = lines.index == null;
-            if (is_last and content.len > 0 and content[content.len - 1] == '\n') {
-                break;
-            }
-            if (is_last) {
-                try self.processLine(&stdout_writer, line, last_was_newline);
-                last_was_newline = false;
-            } else {
-                try self.processLine(&stdout_writer, line, last_was_newline);
-                last_was_newline = true;
-            }
-        }
-    }
-
-    try stdout_writer.flush();
+fn reportFileError(self: *Self, file_path: []const u8, err: anyerror) !void {
+    const msg = switch (err) {
+        error.FileNotFound => "no such file or directory",
+        error.AccessDenied => "permission denied",
+        error.IsDir => "is a directory",
+        error.OutOfMemory => "out of memory",
+        else => "read error",
+    };
+    const stderr = File.stderr();
+    try stderr.writeStreamingAll(self.io, "zcat: ");
+    try stderr.writeStreamingAll(self.io, file_path);
+    try stderr.writeStreamingAll(self.io, ": ");
+    try stderr.writeStreamingAll(self.io, msg);
+    try stderr.writeStreamingAll(self.io, "\n");
 }
 
 fn processLine(
     self: *Self,
-    writer: *Io.File.Writer,
+    writer: *Out,
     line: []const u8,
     has_newline: bool,
 ) !void {
@@ -227,104 +503,85 @@ fn processLine(
 
     var buf: [32]u8 = undefined;
 
-    if (self.args.number and !is_blank) {
+    if ((self.args.number or self.args.number_nonblank) and !is_blank) {
         const num_str = std.fmt.bufPrint(&buf, "{d:6}\t", .{self.line_number}) catch &buf;
-        try writer.interface.writeAll(num_str);
-        self.line_number += 1;
-    } else if (self.args.number_nonblank and !is_blank) {
-        const num_str = std.fmt.bufPrint(&buf, "{d:6}\t", .{self.line_number}) catch &buf;
-        try writer.interface.writeAll(num_str);
+        try writer.writeAll(num_str);
         self.line_number += 1;
     } else if (self.args.number) {
-        const num_str = std.fmt.bufPrint(&buf, "{s:6}\t", .{""}) catch &buf;
-        try writer.interface.writeAll(num_str);
+        const num_str = std.fmt.bufPrint(&buf, "{d:6}\t", .{self.line_number}) catch &buf;
+        try writer.writeAll(num_str);
+        self.line_number += 1;
     }
 
-    for (line) |byte| {
-        if (self.args.show_tabs and byte == '\t') {
-            try writer.interface.writeAll("^I");
-        } else {
-            try writer.interface.writeByte(byte);
+    if (self.args.show_tabs) {
+        for (line) |byte| {
+            if (byte == '\t') {
+                try writer.writeAll("^I");
+            } else {
+                try writer.writeByte(byte);
+            }
         }
+    } else {
+        try writer.writeAll(line);
     }
-
     if (has_newline) {
         if (self.args.show_ends) {
-            try writer.interface.writeAll("$\n");
+            try writer.writeAll("$\n");
         } else {
-            try writer.interface.writeByte('\n');
+            try writer.writeByte('\n');
         }
     }
 }
 
-fn processFileJson(self: *Self, stdout: File, file_path: []const u8) !void {
-    var file = Dir.openFileAbsolute(
-        self.io,
-        file_path,
+fn processFileJson(self: *Self, w: JsonWriter, file_path: []const u8) !void {
+    var file = Dir.openFile(
+        .cwd(), self.io, file_path,
         .{ .mode = .read_only },
     ) catch |err| {
         self.any_file_error = true;
-        try self.writeErrorRecord(stdout, file_path, err);
+        try self.writeErrorRecord(w, file_path, err);
         return;
     };
     defer file.close(self.io);
 
     const stat = file.stat(self.io) catch |err| {
         self.any_file_error = true;
-        try self.writeErrorRecord(stdout, file_path, err);
+        try self.writeErrorRecord(w, file_path, err);
         return;
     };
 
-    try stdout.writeStreamingAll(self.io, "{\"path\":\"");
-    try self.writeEscaped(stdout, file_path);
-    try stdout.writeStreamingAll(self.io, "\",\"size\":");
+    if (stat.kind == .directory) {
+        self.any_file_error = true;
+        try self.writeErrorRecord(w, file_path, error.IsDir);
+        return;
+    }
+
+    try w.writer.writeAll("{\"path\":\"");
+    try self.writeEscaped(w.writer, file_path);
+    try w.writer.writeAll("\",\"size\":");
 
     var size_buf: [20]u8 = undefined;
     const size_str = std.fmt.bufPrint(&size_buf, "{d}", .{stat.size}) catch "0";
-    try stdout.writeStreamingAll(self.io, size_str);
+    try w.writer.writeAll(size_str);
 
-    try stdout.writeStreamingAll(self.io, ",\"lines\":[");
+    try w.writer.writeAll(",\"lines\":[");
 
-    var file_buf: [8192]u8 = undefined;
-    var file_reader = file.reader(self.io, &file_buf);
+    var file_buf: [262144]u8 = undefined;
+    const file_fd: usize = @intFromPtr(file.handle);
+
+    var pending = Pending{};
+    defer pending.deinit(self.allocator);
 
     var line_num: u64 = 1;
     var first_line = true;
 
     while (true) {
-        var bufs: [1][]u8 = .{&file_buf};
-        const bytes_read = file_reader.interface.readVec(&bufs) catch |err| switch (err) {
-            error.EndOfStream => break,
-            else => return err,
-        };
+        const bytes_read = try raw_io.read(file_fd, &file_buf);
         if (bytes_read == 0) break;
-
-        const content = file_buf[0..bytes_read];
-        var lines = std.mem.splitScalar(u8, content, '\n');
-
-        while (lines.next()) |line| {
-            const is_last = lines.index == null;
-            if (is_last and content.len > 0 and content[content.len - 1] == '\n') {
-                break;
-            }
-
-            if (!first_line) {
-                try stdout.writeStreamingAll(self.io, ",");
-            }
-            first_line = false;
-
-            try stdout.writeStreamingAll(self.io, "{\"n\":");
-
-            var num_buf: [20]u8 = undefined;
-            const num_str = std.fmt.bufPrint(&num_buf, "{d}", .{line_num}) catch "1";
-            try stdout.writeStreamingAll(self.io, num_str);
-            line_num += 1;
-
-            try stdout.writeStreamingAll(self.io, ",\"text\":\"");
-            try self.writeEscaped(stdout, line);
-            try stdout.writeStreamingAll(self.io, "\"}");
-        }
+        try self.feedJson(&pending, w, file_buf[0..bytes_read], false, &line_num, &first_line);
     }
 
-    try stdout.writeStreamingAll(self.io, "]}");
+    try self.feedJson(&pending, w, "", true, &line_num, &first_line);
+
+    try w.writer.writeAll("]}");
 }
