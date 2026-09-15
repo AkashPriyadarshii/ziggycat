@@ -38,7 +38,7 @@ jobs:
       - name: Smoke tests
         shell: bash
         run: |
-          set -e
+          set -ex
           B="zig-out/bin/zcat$( [ "$RUNNER_OS" = "Windows" ] && echo .exe)"
           "$B" --version
           # -n numbers blanks GNU-style, -b skips them
@@ -62,7 +62,7 @@ jobs:
           # broken pipe -> 141 (SIGPIPE semantics), silent
           if [ "$RUNNER_OS" != "Windows" ]; then
             yes x | head -c 2000000 | "$B" 2>/dev/null | head -c 1 >/dev/null
-            [ "${PIPESTATUS[1]}" -eq 141 ] || { echo "pipe rc ${PIPESTATUS[1]}"; exit 1; }
+            [ "${PIPESTATUS[2]}" -eq 141 ] || { echo "pipe rc ${PIPESTATUS[2]} (want 141)"; exit 1; }
           fi
           rm -rf .ci-dir .ci-exp .ci-want .ci-err
 
