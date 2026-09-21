@@ -34,6 +34,8 @@
 
 </div>
 
+[![crates.io](https://img.shields.io/crates/v/zcat?style=flat-square)](https://crates.io/crates/zcat) [![downloads](https://img.shields.io/crates/d/zcat?style=flat-square)](https://crates.io/crates/zcat) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/zcat?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/zcat/releases)
+
 ---
 
 A drop-in `cat` replacement. Zero dependencies, no libc, pure Zig 0.16.0.
