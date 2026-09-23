@@ -1,0 +1,676 @@
+build (ubuntu-latest, x86_64-linux)	Set up job	﻿2026-09-15T05:41:35.0908623Z Current runner version: '2.337.0'
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0925969Z ##[group]Runner Image Provisioner
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0926494Z Hosted Compute Agent
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0926902Z Version: 20260828.587
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0927267Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0927669Z Build Date: 2026-08-28T16:44:25Z
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0928162Z Worker ID: {87b7c793-6358-4cc1-bd70-bee8f35cf87c}
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0928568Z Azure Region: centralus
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0928932Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0929729Z ##[group]Operating System
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0930070Z Ubuntu
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0930455Z 24.04.5
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0930749Z LTS
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0931381Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0931713Z ##[group]Runner Image
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0932089Z Image: ubuntu-24.04
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0932469Z Version: 20260907.300.1
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0933067Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0934220Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0934777Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0935492Z ##[group]GITHUB_TOKEN Permissions
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0936657Z Contents: read
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0937042Z Metadata: read
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0937393Z Packages: read
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0937734Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0939009Z Secret source: Actions
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0939571Z Cache mode: write
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.0939980Z Prepare workflow directory
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.1148203Z Prepare all required actions
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.1180808Z Getting action download info
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.3346984Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:35.4212751Z Download action repository 'mlugg/setup-zig@v2' (SHA:d1434d08867e3ee9daa34448df10607b98908d29)
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:37.1574250Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build (ubuntu-latest, x86_64-linux)	Set up job	2026-09-15T05:41:37.3799285Z Complete job name: build (ubuntu-latest, x86_64-linux)
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	﻿2026-09-15T05:41:37.4357773Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4364441Z ##[group]Run actions/checkout@v4
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4365081Z with:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4365546Z   repository: AkashPriyadarshii/zcat
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4370593Z   token: ***
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4371040Z   ssh-strict: true
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4371505Z   ssh-user: git
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4371990Z   persist-credentials: true
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4372511Z   clean: true
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4372989Z   sparse-checkout-cone-mode: true
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4373660Z   fetch-depth: 1
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4374114Z   fetch-tags: false
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4374616Z   show-progress: true
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4375101Z   lfs: false
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4375543Z   submodules: false
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4376055Z   set-safe-directory: true
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4376612Z   allow-unsafe-pr-checkout: false
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.4377253Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5030369Z Syncing repository: AkashPriyadarshii/zcat
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5032149Z ##[group]Getting Git version info
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5033000Z Working directory is '/home/runner/work/zcat/zcat'
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5034169Z [command]/usr/bin/git version
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5098832Z git version 2.55.0
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5125146Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5132613Z Temporarily overriding HOME='/home/runner/work/_temp/0d659a1d-6c07-4df9-bbd2-11fc3fbf1838' before making global git config changes
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5135332Z Adding repository directory to the temporary git global config as a safe directory
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5137367Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zcat/zcat
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5177727Z Deleting the contents of '/home/runner/work/zcat/zcat'
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5182109Z ##[group]Initializing the repository
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5185310Z [command]/usr/bin/git init /home/runner/work/zcat/zcat
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5287529Z hint: Using 'master' as the name for the initial branch. This default branch name
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5288822Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5290521Z hint: to use in all of your new repositories, which will suppress this warning,
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5291729Z hint: call:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5292392Z hint:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5293208Z hint: 	git config --global init.defaultBranch <name>
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5294301Z hint:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5295206Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5296751Z hint: 'development'. The just-created branch can be renamed via this command:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5297981Z hint:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5298688Z hint: 	git branch -m <name>
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5299413Z hint:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5300401Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5302216Z Initialized empty Git repository in /home/runner/work/zcat/zcat/.git/
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5306680Z [command]/usr/bin/git remote add origin https://github.com/AkashPriyadarshii/zcat
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5349434Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5350710Z ##[group]Disabling automatic garbage collection
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5351879Z [command]/usr/bin/git config --local gc.auto 0
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5380760Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5382053Z ##[group]Setting up auth
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5386408Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5415590Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5716788Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5747539Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5923787Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.5952756Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.6126023Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.6156533Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.6157386Z ##[group]Fetching the repository
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.6163556Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f9721a850b6d4fce95f48da9fc0ab58507ffdd12:refs/remotes/origin/main
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9279914Z From https://github.com/AkashPriyadarshii/zcat
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9280619Z  * [new ref]         f9721a850b6d4fce95f48da9fc0ab58507ffdd12 -> origin/main
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9283246Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9283707Z ##[group]Determining the checkout info
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9285212Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9289643Z [command]/usr/bin/git sparse-checkout disable
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9331540Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9354866Z ##[group]Checking out the ref
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9357883Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9408406Z Switched to a new branch 'main'
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9413283Z branch 'main' set up to track 'origin/main'.
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9417036Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9449049Z [command]/usr/bin/git log -1 --format=%H
+build (ubuntu-latest, x86_64-linux)	Run actions/checkout@v4	2026-09-15T05:41:37.9469338Z f9721a850b6d4fce95f48da9fc0ab58507ffdd12
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	﻿2026-09-15T05:41:37.9631546Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:37.9632913Z ##[group]Run mlugg/setup-zig@v2
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:37.9633077Z with:
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:37.9633214Z   version: 0.16.0
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:37.9633357Z   use-cache: true
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:37.9633714Z   cache-size-limit: 2048
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:37.9633869Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:38.0973271Z Using tool-cache: false
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:38.0975880Z Fetching zig-x86_64-linux-0.16.0.tar.xz
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:38.2421577Z Cache hit for: setup-zig-tarball-zig-x86_64-linux-0.16.0
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0235562Z Received 55481366 of 55481366 (100.0%), 86.2 MBs/sec
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0236520Z Cache Size: ~53 MB (55481366 B)
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0319366Z [command]/usr/bin/tar -xf /home/runner/work/_temp/5bfb595c-f124-45f0-a197-301bd4a1caa1/cache.tzst -P -C /home/runner/work/zcat/zcat --use-compress-program unzstd
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0839379Z Cache restored successfully
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0864530Z Fetch took 989 ms
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0864865Z Extracting tarball zig-x86_64-linux-0.16.0.tar.xz
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:39.0923063Z [command]/usr/bin/tar xJ --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/99ce6f77-304b-459d-b202-199e590f4686 -f /home/runner/work/_temp/zig-x86_64-linux-0.16.0.tar.xz
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:41.7658477Z Extract took 2679 ms
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:41.7671587Z [command]/home/runner/work/_temp/99ce6f77-304b-459d-b202-199e590f4686/zig-x86_64-linux-0.16.0/zig version
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:41.7729610Z 0.16.0
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:41.7742424Z Resolved Zig version 0.16.0
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:41.7748266Z Attempting restore of Zig cache with prefix 'setup-zig-cache-v2-build-zig-x86_64-linux-0.16.0--'
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:41.8860875Z Cache hit for restore-key: setup-zig-cache-v2-build-zig-x86_64-linux-0.16.0--34933581768-1
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:42.8276660Z Received 41348277 of 41348277 (100.0%), 50.5 MBs/sec
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:42.8277134Z Cache Size: ~39 MB (41348277 B)
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:42.8331223Z [command]/usr/bin/tar -xf /home/runner/work/_temp/14a4a493-ef12-46f2-8a44-0716aa44dce7/cache.tzst -P -C /home/runner/work/zcat/zcat --use-compress-program unzstd
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:43.0478956Z Cache restored successfully
+build (ubuntu-latest, x86_64-linux)	Run mlugg/setup-zig@v2	2026-09-15T05:41:43.0498434Z Cache hit (key 'setup-zig-cache-v2-build-zig-x86_64-linux-0.16.0--34933581768-1'): populating Zig cache directory at /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Build	﻿2026-09-15T05:41:43.0659618Z ##[group]Run zig build -Doptimize=ReleaseSmall
+build (ubuntu-latest, x86_64-linux)	Build	2026-09-15T05:41:43.0659919Z ^[[36;1mzig build -Doptimize=ReleaseSmall^[[0m
+build (ubuntu-latest, x86_64-linux)	Build	2026-09-15T05:41:43.0692567Z shell: /usr/bin/bash -e {0}
+build (ubuntu-latest, x86_64-linux)	Build	2026-09-15T05:41:43.0692751Z env:
+build (ubuntu-latest, x86_64-linux)	Build	2026-09-15T05:41:43.0692908Z   ZIG_GLOBAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Build	2026-09-15T05:41:43.0693162Z   ZIG_LOCAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Build	2026-09-15T05:41:43.0693345Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Test	﻿2026-09-15T05:41:49.4218800Z ##[group]Run zig build test
+build (ubuntu-latest, x86_64-linux)	Test	2026-09-15T05:41:49.4219014Z ^[[36;1mzig build test^[[0m
+build (ubuntu-latest, x86_64-linux)	Test	2026-09-15T05:41:49.4248437Z shell: /usr/bin/bash -e {0}
+build (ubuntu-latest, x86_64-linux)	Test	2026-09-15T05:41:49.4248581Z env:
+build (ubuntu-latest, x86_64-linux)	Test	2026-09-15T05:41:49.4248761Z   ZIG_GLOBAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Test	2026-09-15T05:41:49.4249031Z   ZIG_LOCAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Test	2026-09-15T05:41:49.4249216Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	posix-diag	﻿2026-09-15T05:41:49.8049375Z ##[group]Run B="zig-out/bin/zcat"
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8049603Z ^[[36;1mB="zig-out/bin/zcat"^[[0m
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8049754Z ^[[36;1mset +e^[[0m
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8049881Z ^[[36;1m"$B" --version; echo "VER=$?"^[[0m
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8050051Z ^[[36;1mprintf 'hi\n' | "$B"; echo "CAT=$?"^[[0m
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8050203Z ^[[36;1mexit 0^[[0m
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8080530Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8080724Z env:
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8081016Z   ZIG_GLOBAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8081234Z   ZIG_LOCAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8081411Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8131484Z zcat 0.1.2
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8132035Z VER=0
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8139903Z hi
+build (ubuntu-latest, x86_64-linux)	posix-diag	2026-09-15T05:41:49.8140634Z CAT=0
+build (ubuntu-latest, x86_64-linux)	Smoke tests	﻿2026-09-15T05:41:49.8158856Z ##[group]Run set -e
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8159019Z ^[[36;1mset -e^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8159198Z ^[[36;1mB="zig-out/bin/zcat$( [ "$RUNNER_OS" = "Windows" ] && echo .exe)"^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8159404Z ^[[36;1m"$B" --version >/dev/null^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8159605Z ^[[36;1m# Checks write to files first: early-exit pipes EPIPE zcat (141)^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8159837Z ^[[36;1m# and pipefail would kill the step on Linux/macOS.^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8160040Z ^[[36;1m# -n numbers blanks GNU-style, -b skips them^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8160224Z ^[[36;1mprintf 'a\n\nb\n' | "$B" -n >.ci-out^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8160421Z ^[[36;1mgrep -q '^     1' .ci-out || { echo "-n mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8160628Z ^[[36;1mprintf 'a\n\nb\n' | "$B" -b >.ci-out^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8160800Z ^[[36;1mprintf '     1\ta\n\n     2\tb\n' >.ci-want^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8160998Z ^[[36;1mcmp .ci-out .ci-want || { echo "-b mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8161209Z ^[[36;1m# -T tabs as ^I, -E ends as $, -s squeezes blanks^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8161472Z ^[[36;1mprintf '\tx\n' | "$B" -T >.ci-out; grep -q '\^I' .ci-out || { echo "-T mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8161763Z ^[[36;1mprintf 'a\n' | "$B" -E >.ci-out; grep -q 'a\$' .ci-out || { echo "-E mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8161991Z ^[[36;1mprintf 'a\n\n\nb\n' | "$B" -s >.ci-out^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8162193Z ^[[36;1m[ "$(grep -c '^$' .ci-out)" = "1" ] || { echo "-s mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8162384Z ^[[36;1m# JSON + stdin^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8162604Z ^[[36;1m"$B" --json src/Cat.zig >.ci-out; grep -q '"files"' .ci-out || { echo "json mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8162943Z ^[[36;1mprintf 'hi' | "$B" --json >.ci-out; grep -q '"path":"-"' .ci-out || { echo "stdin json mismatch"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8163236Z ^[[36;1m# errors: missing file and directory -> exit 1, message on stderr^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8163670Z ^[[36;1mif "$B" /definitely/missing >/dev/null 2>.ci-err; then echo "missing file rc"; exit 1; fi^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8163961Z ^[[36;1mgrep -q 'no such file' .ci-err || { echo "missing file msg"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8164162Z ^[[36;1mmkdir -p .ci-dir^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8164346Z ^[[36;1mif "$B" .ci-dir >/dev/null 2>.ci-err; then echo "dir rc"; exit 1; fi^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8164586Z ^[[36;1mgrep -q 'is a directory' .ci-err || { echo "dir msg"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8164830Z ^[[36;1m# broken pipe -> 141 (SIGPIPE semantics), silent. Guarded: the 141^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8165082Z ^[[36;1m# pipeline rc would itself trip errexit+pipefail before inspection.^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8165299Z ^[[36;1mif [ "$RUNNER_OS" != "Windows" ]; then^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8165453Z ^[[36;1m  set +e^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8165616Z ^[[36;1m  yes x | head -c 2000000 | "$B" 2>/dev/null | head -c 1 >/dev/null^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8165808Z ^[[36;1m  rc=${PIPESTATUS[2]}^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8165942Z ^[[36;1m  set -e^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8166097Z ^[[36;1m  [ "$rc" -eq 141 ] || { echo "pipe rc $rc (want 141)"; exit 1; }^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8166277Z ^[[36;1mfi^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8166407Z ^[[36;1mrm -rf .ci-dir .ci-out .ci-want .ci-err^[[0m
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8192476Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8192652Z env:
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8192807Z   ZIG_GLOBAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8193023Z   ZIG_LOCAL_CACHE_DIR: /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8193196Z ##[endgroup]
+build (ubuntu-latest, x86_64-linux)	Smoke tests	2026-09-15T05:41:49.8245454Z ##[error]Process completed with exit code 1.
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	﻿2026-09-15T05:41:49.8314196Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:49.8314972Z Post job cleanup.
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:49.9573344Z Checking size of cache directory at /home/runner/work/zcat/zcat/.zig-cache
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:49.9917933Z Cache directory is 285671150 bytes, below limit of 2147483648 bytes; keeping intact
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:49.9922592Z Saving Zig cache with key 'setup-zig-cache-v2-build-zig-x86_64-linux-0.16.0--34933766629-1'
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:50.0090011Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/zcat/zcat --files-from manifest.txt --use-compress-program zstdmt
+build (ubuntu-latest, x86_64-linux)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:51.4486228Z Sent 49479781 of 49479781 (100.0%), 47.1 MBs/sec
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	﻿2026-09-15T05:41:51.7400372Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.7401041Z Post job cleanup.
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.7964504Z [command]/usr/bin/git version
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.7995886Z git version 2.55.0
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8020028Z Temporarily overriding HOME='/home/runner/work/_temp/c2479410-bef0-4c9c-abfb-163fbac2a305' before making global git config changes
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8020547Z Adding repository directory to the temporary git global config as a safe directory
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8023873Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/zcat/zcat
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8057954Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8088961Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8285191Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8309920Z http.https://github.com/.extraheader
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8318268Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8347622Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8533100Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build (ubuntu-latest, x86_64-linux)	Post Run actions/checkout@v4	2026-09-15T05:41:51.8564041Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build (ubuntu-latest, x86_64-linux)	Complete job	﻿2026-09-15T05:41:51.8838062Z Cleaning up orphan processes
+build (ubuntu-latest, x86_64-linux)	Complete job	2026-09-15T05:41:51.9013032Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, mlugg/setup-zig@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (macos-latest, aarch64-macos)	Set up job	﻿2026-09-15T05:41:39.5154540Z Current runner version: '2.337.0'
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5173260Z ##[group]Runner Image Provisioner
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5173830Z Hosted Compute Agent
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5174200Z Version: 20260828.587
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5174610Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5175080Z Build Date: 2026-08-28T16:44:25Z
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5175530Z Worker ID: {e9f0fc9c-b7d7-4e6d-b900-f207d172d050}
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5175990Z Azure Region: westus
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5176380Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5177400Z ##[group]Operating System
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5177790Z macOS
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5178120Z 26.6.2
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5178450Z 25G83
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5178830Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5179180Z ##[group]Runner Image
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5179550Z Image: macos-26-arm64
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5179920Z Version: 20260907.0351.1
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5180660Z Included Software: https://github.com/actions/runner-images/blob/macos-26-arm64/20260907.0351/images/macos/macos-26-arm64-Readme.md
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5181830Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26-arm64%2F20260907.0351
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5182480Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5183320Z ##[group]GITHUB_TOKEN Permissions
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5184460Z Contents: read
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5184820Z Metadata: read
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5185180Z Packages: read
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5185550Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5186960Z Secret source: Actions
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5187520Z Cache mode: write
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5187960Z Prepare workflow directory
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5398360Z Prepare all required actions
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.5434380Z Getting action download info
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:39.8440190Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:40.2392780Z Download action repository 'mlugg/setup-zig@v2' (SHA:d1434d08867e3ee9daa34448df10607b98908d29)
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:42.9435940Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build (macos-latest, aarch64-macos)	Set up job	2026-09-15T05:41:43.1178450Z Complete job name: build (macos-latest, aarch64-macos)
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	﻿2026-09-15T05:41:43.1586400Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1592360Z ##[group]Run actions/checkout@v4
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1592770Z with:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1592960Z   repository: AkashPriyadarshii/zcat
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1595210Z   token: ***
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1595380Z   ssh-strict: true
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1595550Z   ssh-user: git
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1595710Z   persist-credentials: true
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1595900Z   clean: true
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1596080Z   sparse-checkout-cone-mode: true
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1596290Z   fetch-depth: 1
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1596450Z   fetch-tags: false
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1596690Z   show-progress: true
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1596870Z   lfs: false
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1597030Z   submodules: false
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1597240Z   set-safe-directory: true
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1597450Z   allow-unsafe-pr-checkout: false
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.1597760Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.4998020Z Syncing repository: AkashPriyadarshii/zcat
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.4999170Z ##[group]Getting Git version info
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.4999470Z Working directory is '/Users/runner/work/zcat/zcat'
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5000140Z [command]/opt/homebrew/bin/git version
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5476690Z git version 2.55.0
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5487220Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5493870Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/d7f53946-3158-489e-8ca2-25e6ff31e252/.gitconfig'
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5500350Z Temporarily overriding HOME='/Users/runner/work/_temp/d7f53946-3158-489e-8ca2-25e6ff31e252' before making global git config changes
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5501040Z Adding repository directory to the temporary git global config as a safe directory
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5503400Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/zcat/zcat
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5602500Z Deleting the contents of '/Users/runner/work/zcat/zcat'
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5605570Z ##[group]Initializing the repository
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5608690Z [command]/opt/homebrew/bin/git init /Users/runner/work/zcat/zcat
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5795770Z hint: Using 'master' as the name for the initial branch. This default branch name
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5796590Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5797070Z hint: to use in all of your new repositories, which will suppress this warning,
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5797430Z hint: call:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5797600Z hint:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5797900Z hint: 	git config --global init.defaultBranch <name>
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5798200Z hint:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5798520Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5799020Z hint: 'development'. The just-created branch can be renamed via this command:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5799420Z hint:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5799620Z hint: 	git branch -m <name>
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5799830Z hint:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5800120Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5800570Z Initialized empty Git repository in /Users/runner/work/zcat/zcat/.git/
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5802780Z [command]/opt/homebrew/bin/git remote add origin https://github.com/AkashPriyadarshii/zcat
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5869180Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5869630Z ##[group]Disabling automatic garbage collection
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5871340Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5924080Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5924460Z ##[group]Setting up auth
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5928070Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.5981270Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.6829520Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.6885300Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.7549150Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.7615840Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.8765770Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.8844360Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.8851070Z ##[group]Fetching the repository
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:43.8855040Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f9721a850b6d4fce95f48da9fc0ab58507ffdd12:refs/remotes/origin/main
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5402720Z From https://github.com/AkashPriyadarshii/zcat
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5403350Z  * [new ref]         f9721a850b6d4fce95f48da9fc0ab58507ffdd12 -> origin/main
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5407120Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5407560Z ##[group]Determining the checkout info
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5409110Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5413390Z [command]/opt/homebrew/bin/git sparse-checkout disable
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5490620Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5549830Z ##[group]Checking out the ref
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5557540Z [command]/opt/homebrew/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5675930Z Switched to a new branch 'main'
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5681140Z branch 'main' set up to track 'origin/main'.
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5683830Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5766480Z [command]/opt/homebrew/bin/git log -1 --format=%H
+build (macos-latest, aarch64-macos)	Run actions/checkout@v4	2026-09-15T05:41:44.5832310Z f9721a850b6d4fce95f48da9fc0ab58507ffdd12
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	﻿2026-09-15T05:41:44.6024070Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.6025350Z ##[group]Run mlugg/setup-zig@v2
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.6025550Z with:
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.6025700Z   version: 0.16.0
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.6025880Z   use-cache: true
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.6026060Z   cache-size-limit: 2048
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.6026260Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.8340260Z Using tool-cache: false
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:44.8342820Z Fetching zig-aarch64-macos-0.16.0.tar.xz
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:45.0074440Z Cache hit for: setup-zig-tarball-zig-aarch64-macos-0.16.0
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.1095390Z Received 52241044 of 52241044 (100.0%), 53.9 MBs/sec
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.1099530Z Cache Size: ~50 MB (52241044 B)
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.1152160Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/70ef424f-52f6-45ba-9bf6-bd0ba8a8e6d2/cache.tzst -P -C /Users/runner/work/zcat/zcat --delay-directory-restore --use-compress-program unzstd
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.2467440Z Cache restored successfully
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.2523110Z Fetch took 1413 ms
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.2536140Z Extracting tarball zig-aarch64-macos-0.16.0.tar.xz
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:46.2638870Z [command]/usr/bin/tar xJ -C /Users/runner/work/_temp/a7612147-ba9a-4b8e-a160-cc8891be4389 -f /Users/runner/work/_temp/zig-aarch64-macos-0.16.0.tar.xz
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.1479480Z Extract took 6897 ms
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.1708730Z [command]/Users/runner/work/_temp/a7612147-ba9a-4b8e-a160-cc8891be4389/zig-aarch64-macos-0.16.0/zig version
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4382560Z 0.16.0
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4392720Z Resolved Zig version 0.16.0
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4403420Z Attempting restore of Zig cache with prefix 'setup-zig-cache-v2-build-zig-aarch64-macos-0.16.0--'
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.5905390Z Cache hit for restore-key: setup-zig-cache-v2-build-zig-aarch64-macos-0.16.0--34933581768-1
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:54.3050640Z Received 26276102 of 26276102 (100.0%), 44.0 MBs/sec
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:54.3160780Z Cache Size: ~25 MB (26276102 B)
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:54.3341730Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/176c084f-35f3-4c9c-b133-218a60479e23/cache.tzst -P -C /Users/runner/work/zcat/zcat --delay-directory-restore --use-compress-program unzstd
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:54.7118900Z Cache restored successfully
+build (macos-latest, aarch64-macos)	Run mlugg/setup-zig@v2	2026-09-15T05:41:54.7127910Z Cache hit (key 'setup-zig-cache-v2-build-zig-aarch64-macos-0.16.0--34933581768-1'): populating Zig cache directory at /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Build	﻿2026-09-15T05:41:54.7321480Z ##[group]Run zig build -Doptimize=ReleaseSmall
+build (macos-latest, aarch64-macos)	Build	2026-09-15T05:41:54.7321930Z ^[[36;1mzig build -Doptimize=ReleaseSmall^[[0m
+build (macos-latest, aarch64-macos)	Build	2026-09-15T05:41:54.7476880Z shell: /bin/bash -e {0}
+build (macos-latest, aarch64-macos)	Build	2026-09-15T05:41:54.7477340Z env:
+build (macos-latest, aarch64-macos)	Build	2026-09-15T05:41:54.7477730Z   ZIG_GLOBAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Build	2026-09-15T05:41:54.7478160Z   ZIG_LOCAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Build	2026-09-15T05:41:54.7478570Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Test	﻿2026-09-15T05:41:56.9318710Z ##[group]Run zig build test
+build (macos-latest, aarch64-macos)	Test	2026-09-15T05:41:56.9319730Z ^[[36;1mzig build test^[[0m
+build (macos-latest, aarch64-macos)	Test	2026-09-15T05:41:56.9355700Z shell: /bin/bash -e {0}
+build (macos-latest, aarch64-macos)	Test	2026-09-15T05:41:56.9356050Z env:
+build (macos-latest, aarch64-macos)	Test	2026-09-15T05:41:56.9356340Z   ZIG_GLOBAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Test	2026-09-15T05:41:56.9356740Z   ZIG_LOCAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Test	2026-09-15T05:41:56.9357120Z ##[endgroup]
+build (macos-latest, aarch64-macos)	posix-diag	﻿2026-09-15T05:41:57.1637370Z ##[group]Run B="zig-out/bin/zcat"
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1637660Z ^[[36;1mB="zig-out/bin/zcat"^[[0m
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1644420Z ^[[36;1mset +e^[[0m
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1644620Z ^[[36;1m"$B" --version; echo "VER=$?"^[[0m
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1644910Z ^[[36;1mprintf 'hi\n' | "$B"; echo "CAT=$?"^[[0m
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1645160Z ^[[36;1mexit 0^[[0m
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1674620Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1674880Z env:
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1675130Z   ZIG_GLOBAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1675490Z   ZIG_LOCAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1675800Z ##[endgroup]
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1937040Z zcat 0.1.2
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1938210Z VER=0
+build (macos-latest, aarch64-macos)	posix-diag	2026-09-15T05:41:57.1962490Z CAT=0
+build (macos-latest, aarch64-macos)	Smoke tests	﻿2026-09-15T05:41:57.2000340Z ##[group]Run set -e
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2000580Z ^[[36;1mset -e^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2000830Z ^[[36;1mB="zig-out/bin/zcat$( [ "$RUNNER_OS" = "Windows" ] && echo .exe)"^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2001160Z ^[[36;1m"$B" --version >/dev/null^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2001470Z ^[[36;1m# Checks write to files first: early-exit pipes EPIPE zcat (141)^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2001850Z ^[[36;1m# and pipefail would kill the step on Linux/macOS.^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2002160Z ^[[36;1m# -n numbers blanks GNU-style, -b skips them^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2002430Z ^[[36;1mprintf 'a\n\nb\n' | "$B" -n >.ci-out^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2002710Z ^[[36;1mgrep -q '^     1' .ci-out || { echo "-n mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2003000Z ^[[36;1mprintf 'a\n\nb\n' | "$B" -b >.ci-out^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2003300Z ^[[36;1mprintf '     1\ta\n\n     2\tb\n' >.ci-want^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2003620Z ^[[36;1mcmp .ci-out .ci-want || { echo "-b mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2003930Z ^[[36;1m# -T tabs as ^I, -E ends as $, -s squeezes blanks^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2004330Z ^[[36;1mprintf '\tx\n' | "$B" -T >.ci-out; grep -q '\^I' .ci-out || { echo "-T mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2004780Z ^[[36;1mprintf 'a\n' | "$B" -E >.ci-out; grep -q 'a\$' .ci-out || { echo "-E mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2005130Z ^[[36;1mprintf 'a\n\n\nb\n' | "$B" -s >.ci-out^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2005420Z ^[[36;1m[ "$(grep -c '^$' .ci-out)" = "1" ] || { echo "-s mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2005690Z ^[[36;1m# JSON + stdin^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2006010Z ^[[36;1m"$B" --json src/Cat.zig >.ci-out; grep -q '"files"' .ci-out || { echo "json mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2006680Z ^[[36;1mprintf 'hi' | "$B" --json >.ci-out; grep -q '"path":"-"' .ci-out || { echo "stdin json mismatch"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2007140Z ^[[36;1m# errors: missing file and directory -> exit 1, message on stderr^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2007570Z ^[[36;1mif "$B" /definitely/missing >/dev/null 2>.ci-err; then echo "missing file rc"; exit 1; fi^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2008010Z ^[[36;1mgrep -q 'no such file' .ci-err || { echo "missing file msg"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2008330Z ^[[36;1mmkdir -p .ci-dir^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2008600Z ^[[36;1mif "$B" .ci-dir >/dev/null 2>.ci-err; then echo "dir rc"; exit 1; fi^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2008960Z ^[[36;1mgrep -q 'is a directory' .ci-err || { echo "dir msg"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2009320Z ^[[36;1m# broken pipe -> 141 (SIGPIPE semantics), silent. Guarded: the 141^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2009700Z ^[[36;1m# pipeline rc would itself trip errexit+pipefail before inspection.^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2010030Z ^[[36;1mif [ "$RUNNER_OS" != "Windows" ]; then^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2010230Z ^[[36;1m  set +e^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2010460Z ^[[36;1m  yes x | head -c 2000000 | "$B" 2>/dev/null | head -c 1 >/dev/null^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2010740Z ^[[36;1m  rc=${PIPESTATUS[2]}^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2010920Z ^[[36;1m  set -e^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2011130Z ^[[36;1m  [ "$rc" -eq 141 ] || { echo "pipe rc $rc (want 141)"; exit 1; }^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2011380Z ^[[36;1mfi^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2011550Z ^[[36;1mrm -rf .ci-dir .ci-out .ci-want .ci-err^[[0m
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2039520Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2039770Z env:
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2040120Z   ZIG_GLOBAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2040440Z   ZIG_LOCAL_CACHE_DIR: /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2040700Z ##[endgroup]
+build (macos-latest, aarch64-macos)	Smoke tests	2026-09-15T05:41:57.2290620Z ##[error]Process completed with exit code 1.
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	﻿2026-09-15T05:41:57.2378830Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:57.2379810Z Post job cleanup.
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:57.5002150Z Checking size of cache directory at /Users/runner/work/zcat/zcat/.zig-cache
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:57.5244710Z Cache directory is 73782385 bytes, below limit of 2147483648 bytes; keeping intact
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:57.5247880Z Saving Zig cache with key 'setup-zig-cache-v2-build-zig-aarch64-macos-0.16.0--34933766629-1'
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:57.5365800Z [command]/opt/homebrew/bin/gtar --posix -cf cache.tzst --exclude cache.tzst -P -C /Users/runner/work/zcat/zcat --files-from manifest.txt --delay-directory-restore --use-compress-program zstdmt
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:58.8284310Z Sent 20119552 of 26275196 (76.6%), 19.2 MBs/sec
+build (macos-latest, aarch64-macos)	Post Run mlugg/setup-zig@v2	2026-09-15T05:41:59.4138550Z Sent 26275196 of 26275196 (100.0%), 15.8 MBs/sec
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	﻿2026-09-15T05:41:59.5953630Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.5954730Z Post job cleanup.
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.6894250Z [command]/opt/homebrew/bin/git version
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7086620Z git version 2.55.0
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7104710Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/78f61587-2b1e-4bf3-944b-427df5689508/.gitconfig'
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7111430Z Temporarily overriding HOME='/Users/runner/work/_temp/78f61587-2b1e-4bf3-944b-427df5689508' before making global git config changes
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7112380Z Adding repository directory to the temporary git global config as a safe directory
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7114900Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/zcat/zcat
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7225100Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.7285670Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.8030960Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.8079020Z http.https://github.com/.extraheader
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.8086600Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.8142620Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.8825780Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build (macos-latest, aarch64-macos)	Post Run actions/checkout@v4	2026-09-15T05:41:59.8886360Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build (macos-latest, aarch64-macos)	Complete job	﻿2026-09-15T05:42:00.0112200Z Cleaning up orphan processes
+build (macos-latest, aarch64-macos)	Complete job	2026-09-15T05:42:00.6226940Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, mlugg/setup-zig@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (windows-latest, x86_64-windows)	Set up job	﻿2026-09-15T05:41:36.1744940Z Current runner version: '2.337.0'
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2057141Z ##[group]Runner Image Provisioner
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2058338Z Hosted Compute Agent
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2059117Z Version: 20260828.587
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2060045Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2061028Z Build Date: 2026-08-28T16:44:25Z
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2061910Z Worker ID: {92b7387f-8faf-411d-9789-912e0d692cd6}
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2062871Z Azure Region: centralus
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2063652Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2066056Z ##[group]Operating System
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2066942Z Microsoft Windows Server 2025
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2067666Z 10.0.26100
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2068120Z Datacenter
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2068635Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2069183Z ##[group]Runner Image
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2069786Z Image: windows-2025-vs2026
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2070341Z Version: 20260907.229.1
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2072046Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260907.229/images/windows/Windows2025-VS2026-Readme.md
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2074512Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260907.229
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2075411Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2076516Z ##[group]GITHUB_TOKEN Permissions
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2078611Z Contents: read
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2079164Z Metadata: read
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2079687Z Packages: read
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2080492Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2082934Z Secret source: Actions
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2083933Z Cache mode: write
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2084660Z Prepare workflow directory
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2517563Z Prepare all required actions
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.2578782Z Getting action download info
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.5058759Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:36.7372781Z Download action repository 'mlugg/setup-zig@v2' (SHA:d1434d08867e3ee9daa34448df10607b98908d29)
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:42.1577136Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build (windows-latest, x86_64-windows)	Set up job	2026-09-15T05:41:42.7815116Z Complete job name: build (windows-latest, x86_64-windows)
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	﻿2026-09-15T05:41:43.0950712Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0959069Z ##[group]Run actions/checkout@v4
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0959676Z with:
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0960117Z   repository: AkashPriyadarshii/zcat
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0962673Z   token: ***
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0963017Z   ssh-strict: true
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0963359Z   ssh-user: git
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0963699Z   persist-credentials: true
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0964040Z   clean: true
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0964368Z   sparse-checkout-cone-mode: true
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0964751Z   fetch-depth: 1
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0965087Z   fetch-tags: false
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0965447Z   show-progress: true
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0965756Z   lfs: false
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0966062Z   submodules: false
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0966493Z   set-safe-directory: true
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0966856Z   allow-unsafe-pr-checkout: false
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.0967323Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.3382752Z Syncing repository: AkashPriyadarshii/zcat
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.3385348Z ##[group]Getting Git version info
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.3386088Z Working directory is 'D:\a\zcat\zcat'
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:43.4053103Z [command]"C:\Program Files\Git\bin\git.exe" version
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3257912Z git version 2.55.0.windows.5
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3324696Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3347770Z Temporarily overriding HOME='D:\a\_temp\73ed8dc8-234d-44b6-899e-7c5513db047f' before making global git config changes
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3348826Z Adding repository directory to the temporary git global config as a safe directory
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3360018Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\zcat\zcat
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3752828Z Deleting the contents of 'D:\a\zcat\zcat'
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3759704Z ##[group]Initializing the repository
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.3768317Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\zcat\zcat
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.4672016Z Initialized empty Git repository in D:/a/zcat/zcat/.git/
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.4733404Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/AkashPriyadarshii/zcat
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5136114Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5136585Z ##[group]Disabling automatic garbage collection
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5146402Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5483160Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5483717Z ##[group]Setting up auth
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5499822Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:44.5825442Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:49.3556727Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:49.3965236Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:50.1083409Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:50.1501599Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:50.7874876Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:50.8255317Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:50.8255881Z ##[group]Fetching the repository
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:50.8268524Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f9721a850b6d4fce95f48da9fc0ab58507ffdd12:refs/remotes/origin/main
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.1999442Z From https://github.com/AkashPriyadarshii/zcat
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2000088Z  * [new ref]         f9721a850b6d4fce95f48da9fc0ab58507ffdd12 -> origin/main
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2055956Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2056542Z ##[group]Determining the checkout info
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2059602Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2070211Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2473307Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2799644Z ##[group]Checking out the ref
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.2808942Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.3338765Z Switched to a new branch 'main'
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.3372185Z branch 'main' set up to track 'origin/main'.
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.3418219Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.3771743Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+build (windows-latest, x86_64-windows)	Run actions/checkout@v4	2026-09-15T05:41:53.4082191Z f9721a850b6d4fce95f48da9fc0ab58507ffdd12
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	﻿2026-09-15T05:41:53.4594370Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4596259Z ##[group]Run mlugg/setup-zig@v2
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4596481Z with:
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4597319Z   version: 0.16.0
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4597540Z   use-cache: true
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4597734Z   cache-size-limit: 2048
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.4597936Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.8653193Z Using tool-cache: false
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:53.8660834Z Fetching zig-x86_64-windows-0.16.0.zip
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:54.3629957Z Cache hit for: setup-zig-tarball-zig-x86_64-windows-0.16.0
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:55.5647168Z Received 91486637 of 91486637 (100.0%), 82.2 MBs/sec
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:55.5651132Z Cache Size: ~87 MB (91486637 B)
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:55.5689115Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/5ee30ca8-0ba2-4bc7-bcd2-6d957227a146/cache.tzst -P -C D:/a/zcat/zcat --force-local --use-compress-program "zstd -d"
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:56.1282426Z Cache restored successfully
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:56.1421381Z Fetch took 2276 ms
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:56.1421765Z Extracting tarball zig-x86_64-windows-0.16.0.zip
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:41:56.2128898Z [command]"C:\Program Files\PowerShell\7\pwsh.exe" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "$ErrorActionPreference = 'Stop' ; try { Add-Type -AssemblyName System.IO.Compression.ZipFile } catch { } ; try { [System.IO.Compression.ZipFile]::ExtractToDirectory('D:\a\_temp\zig-x86_64-windows-0.16.0.zip', 'D:\a\_temp\2c720488-993d-4159-9514-04ad1c00fc3d', $true) } catch { if (($_.Exception.GetType().FullName -eq 'System.Management.Automation.MethodException') -or ($_.Exception.GetType().FullName -eq 'System.Management.Automation.RuntimeException') ){ Expand-Archive -LiteralPath 'D:\a\_temp\zig-x86_64-windows-0.16.0.zip' -DestinationPath 'D:\a\_temp\2c720488-993d-4159-9514-04ad1c00fc3d' -Force } else { throw $_ } } ;"
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:01.9718154Z Extract took 5829 ms
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:02.0339783Z [command]D:\a\_temp\2c720488-993d-4159-9514-04ad1c00fc3d\zig-x86_64-windows-0.16.0\zig.exe version
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:02.7735104Z 0.16.0
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:02.7784913Z Resolved Zig version 0.16.0
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:02.7797095Z Attempting restore of Zig cache with prefix 'setup-zig-cache-v2-build-zig-x86_64-windows-0.16.0--'
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:02.9652538Z Cache hit for restore-key: setup-zig-cache-v2-build-zig-x86_64-windows-0.16.0--34933581768-1
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:03.7999018Z Received 44287489 of 44287489 (100.0%), 60.3 MBs/sec
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:03.8000431Z Cache Size: ~42 MB (44287489 B)
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:03.8095060Z [command]"C:\Program Files\Git\usr\bin\tar.exe" -xf D:/a/_temp/844a06bf-a315-420a-b7d0-d7f1f9a9eb93/cache.tzst -P -C D:/a/zcat/zcat --force-local --use-compress-program "zstd -d"
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:04.2729300Z Cache restored successfully
+build (windows-latest, x86_64-windows)	Run mlugg/setup-zig@v2	2026-09-15T05:42:04.2790080Z Cache hit (key 'setup-zig-cache-v2-build-zig-x86_64-windows-0.16.0--34933581768-1'): populating Zig cache directory at D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Build	﻿2026-09-15T05:42:04.3218092Z ##[group]Run zig build -Doptimize=ReleaseSmall
+build (windows-latest, x86_64-windows)	Build	2026-09-15T05:42:04.3218632Z ^[[36;1mzig build -Doptimize=ReleaseSmall^[[0m
+build (windows-latest, x86_64-windows)	Build	2026-09-15T05:42:04.3343113Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+build (windows-latest, x86_64-windows)	Build	2026-09-15T05:42:04.3343463Z env:
+build (windows-latest, x86_64-windows)	Build	2026-09-15T05:42:04.3343691Z   ZIG_GLOBAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Build	2026-09-15T05:42:04.3343975Z   ZIG_LOCAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Build	2026-09-15T05:42:04.3344236Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Test	﻿2026-09-15T05:42:22.6547526Z ##[group]Run zig build test
+build (windows-latest, x86_64-windows)	Test	2026-09-15T05:42:22.6547961Z ^[[36;1mzig build test^[[0m
+build (windows-latest, x86_64-windows)	Test	2026-09-15T05:42:22.6618734Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+build (windows-latest, x86_64-windows)	Test	2026-09-15T05:42:22.6619065Z env:
+build (windows-latest, x86_64-windows)	Test	2026-09-15T05:42:22.6619284Z   ZIG_GLOBAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Test	2026-09-15T05:42:22.6619573Z   ZIG_LOCAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Test	2026-09-15T05:42:22.6619826Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Smoke tests	﻿2026-09-15T05:42:26.1810659Z ##[group]Run set -e
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1811195Z ^[[36;1mset -e^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1811566Z ^[[36;1mB="zig-out/bin/zcat$( [ "$RUNNER_OS" = "Windows" ] && echo .exe)"^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1812002Z ^[[36;1m"$B" --version >/dev/null^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1812468Z ^[[36;1m# Checks write to files first: early-exit pipes EPIPE zcat (141)^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1813295Z ^[[36;1m# and pipefail would kill the step on Linux/macOS.^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1813777Z ^[[36;1m# -n numbers blanks GNU-style, -b skips them^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1814235Z ^[[36;1mprintf 'a\n\nb\n' | "$B" -n >.ci-out^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1814692Z ^[[36;1mgrep -q '^     1' .ci-out || { echo "-n mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1815205Z ^[[36;1mprintf 'a\n\nb\n' | "$B" -b >.ci-out^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1815563Z ^[[36;1mprintf '     1\ta\n\n     2\tb\n' >.ci-want^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1815976Z ^[[36;1mcmp .ci-out .ci-want || { echo "-b mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1816451Z ^[[36;1m# -T tabs as ^I, -E ends as $, -s squeezes blanks^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1817106Z ^[[36;1mprintf '\tx\n' | "$B" -T >.ci-out; grep -q '\^I' .ci-out || { echo "-T mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1817858Z ^[[36;1mprintf 'a\n' | "$B" -E >.ci-out; grep -q 'a\$' .ci-out || { echo "-E mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1818437Z ^[[36;1mprintf 'a\n\n\nb\n' | "$B" -s >.ci-out^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1818955Z ^[[36;1m[ "$(grep -c '^$' .ci-out)" = "1" ] || { echo "-s mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1819463Z ^[[36;1m# JSON + stdin^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1819909Z ^[[36;1m"$B" --json src/Cat.zig >.ci-out; grep -q '"files"' .ci-out || { echo "json mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1820570Z ^[[36;1mprintf 'hi' | "$B" --json >.ci-out; grep -q '"path":"-"' .ci-out || { echo "stdin json mismatch"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1821525Z ^[[36;1m# errors: missing file and directory -> exit 1, message on stderr^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1822119Z ^[[36;1mif "$B" /definitely/missing >/dev/null 2>.ci-err; then echo "missing file rc"; exit 1; fi^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1822618Z ^[[36;1mgrep -q 'no such file' .ci-err || { echo "missing file msg"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1822959Z ^[[36;1mmkdir -p .ci-dir^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1823278Z ^[[36;1mif "$B" .ci-dir >/dev/null 2>.ci-err; then echo "dir rc"; exit 1; fi^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1823688Z ^[[36;1mgrep -q 'is a directory' .ci-err || { echo "dir msg"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1824113Z ^[[36;1m# broken pipe -> 141 (SIGPIPE semantics), silent. Guarded: the 141^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1824546Z ^[[36;1m# pipeline rc would itself trip errexit+pipefail before inspection.^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1824906Z ^[[36;1mif [ "$RUNNER_OS" != "Windows" ]; then^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1825155Z ^[[36;1m  set +e^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1825426Z ^[[36;1m  yes x | head -c 2000000 | "$B" 2>/dev/null | head -c 1 >/dev/null^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1825745Z ^[[36;1m  rc=${PIPESTATUS[2]}^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1825957Z ^[[36;1m  set -e^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1826349Z ^[[36;1m  [ "$rc" -eq 141 ] || { echo "pipe rc $rc (want 141)"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1826653Z ^[[36;1mfi^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1826865Z ^[[36;1mrm -rf .ci-dir .ci-out .ci-want .ci-err^[[0m
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1840266Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1840637Z env:
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1840872Z   ZIG_GLOBAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1841169Z   ZIG_LOCAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Smoke tests	2026-09-15T05:42:26.1841412Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Check binary size	﻿2026-09-15T05:42:26.8026187Z ##[group]Run SIZE=$(wc -c < zig-out/bin/zcat 2>/dev/null || wc -c < zig-out/bin/zcat.exe)
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8027218Z ^[[36;1mSIZE=$(wc -c < zig-out/bin/zcat 2>/dev/null || wc -c < zig-out/bin/zcat.exe)^[[0m
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8027849Z ^[[36;1mecho "Binary size: $SIZE bytes (limit 600000)"^[[0m
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8028393Z ^[[36;1m[ "$SIZE" -le 600000 ] || { echo "FAIL: binary too large"; exit 1; }^[[0m
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8044756Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8045319Z env:
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8045623Z   ZIG_GLOBAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8046076Z   ZIG_LOCAL_CACHE_DIR: D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8046442Z ##[endgroup]
+build (windows-latest, x86_64-windows)	Check binary size	2026-09-15T05:42:26.8757536Z Binary size: 514560 bytes (limit 600000)
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	﻿2026-09-15T05:42:26.9012366Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	2026-09-15T05:42:26.9013682Z Post job cleanup.
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	2026-09-15T05:42:27.2665463Z Checking size of cache directory at D:\a\zcat\zcat\.zig-cache
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	2026-09-15T05:42:27.3286299Z Cache directory is 192007133 bytes, below limit of 2147483648 bytes; keeping intact
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	2026-09-15T05:42:27.3292255Z Saving Zig cache with key 'setup-zig-cache-v2-build-zig-x86_64-windows-0.16.0--34933766629-1'
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	2026-09-15T05:42:27.4147577Z [command]"C:\Program Files\Git\usr\bin\tar.exe" --posix -cf cache.tzst --exclude cache.tzst -P -C D:/a/zcat/zcat --files-from manifest.txt --force-local --use-compress-program "zstd -T0"
+build (windows-latest, x86_64-windows)	Post Run mlugg/setup-zig@v2	2026-09-15T05:42:29.4781692Z Sent 53310962 of 53310962 (100.0%), 50.8 MBs/sec
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	﻿2026-09-15T05:42:29.9409477Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:29.9411477Z Post job cleanup.
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.1151968Z [command]"C:\Program Files\Git\bin\git.exe" version
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.1442986Z git version 2.55.0.windows.5
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.1512219Z Temporarily overriding HOME='D:\a\_temp\6cc0d50a-07c0-4b4f-80af-1d43c4bd0074' before making global git config changes
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.1513419Z Adding repository directory to the temporary git global config as a safe directory
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.1523577Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\zcat\zcat
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.1868567Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.2157549Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.7766739Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.8028045Z http.https://github.com/.extraheader
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.8077774Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:30.8370928Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:31.3954136Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+build (windows-latest, x86_64-windows)	Post Run actions/checkout@v4	2026-09-15T05:42:31.4302136Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+build (windows-latest, x86_64-windows)	Complete job	﻿2026-09-15T05:42:31.9831797Z Cleaning up orphan processes
+build (windows-latest, x86_64-windows)	Complete job	2026-09-15T05:42:31.9871210Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, mlugg/setup-zig@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
