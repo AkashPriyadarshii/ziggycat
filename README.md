@@ -32,6 +32,8 @@
 
 **by [Akash Priyadarshi](https://github.com/AkashPriyadarshii)** · Patna, Bihar, India
 
+*Fuel the next build:* [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
+
 </div>
 
 ---
@@ -196,7 +198,7 @@ MIT. Built by Akash Priyadarshi (Patna, Bihar, India).
 
 - GitHub: [AkashPriyadarshii](https://github.com/AkashPriyadarshii)
 - Portfolio: [akashpriyadarshi.vercel.app](https://akashpriyadarshi.vercel.app)
-- LinkedIn: [akash-priyadarshi-1aa51b37a](https://linkedin.com/in/akash-priyadarshi-1aa51b37a)
+- LinkedIn: [akash-priyadarshi-1aa51b37a](https://linkedin.com/in/akashpriyadarshii)
 - Resume: [akashpriyadarshii.github.io/Resume](https://akashpriyadarshii.github.io/Resume/)
 
 More from the ecosystem: [design-genius](https://github.com/AkashPriyadarshii/design-genius) · [akash-design-engineering](https://github.com/AkashPriyadarshii/akash-design-engineering) · [tdlib-android](https://github.com/AkashPriyadarshii/tdlib-android) · [kharcha](https://github.com/AkashPriyadarshii/kharcha)
