@@ -304,7 +304,7 @@ Method: 94MB file (2M lines), build `ReleaseFast`, sink `/dev/null`, median of 7
 
 ## What's new
 
-**v0.1.3** renames `zcat` to `ziggycat` and ships the fast path:
+**v0.1.4** renames `zcat` to `ziggycat` and ships the fast path:
 
 | Feature on `main` | Use it |
 |---|---|

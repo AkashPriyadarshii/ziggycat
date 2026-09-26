@@ -67,7 +67,7 @@ pub fn main(init: std.process.Init) !void {
 }
 
 const help_text =
-    \\ziggycat v0.1.3 - A modern cat replacement
+    \\ziggycat v0.1.4 - A modern cat replacement
     \\
     \\Usage: ziggycat [OPTIONS] [FILE...]
     \\
@@ -91,4 +91,4 @@ const help_text =
     \\
 ;
 
-const version_text = "ziggycat 0.1.3\n";
+const version_text = "ziggycat 0.1.4\n";
