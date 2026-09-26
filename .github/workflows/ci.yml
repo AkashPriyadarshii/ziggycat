@@ -10,13 +10,17 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: windows-latest
             target: x86_64-windows
+          - os: ubuntu-latest
+            target: x86_64-linux
+          - os: macos-latest
+            target: aarch64-macos
 
     steps:
       - uses: actions/checkout@v4
@@ -26,7 +30,7 @@ jobs:
           version: '0.16.0'
 
       - name: Build
-        run: zig build -Doptimize=ReleaseSmall
+        run: zig build -Doptimize=ReleaseSmall -Dtarget=${{ matrix.target }}
 
       - name: Test
         run: zig build test
@@ -77,15 +81,19 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           cd zig-out/bin
-          mv ziggycat* ziggycat-${{ matrix.target }}
-          ls -la ziggycat-${{ matrix.target }}
+          if [ -f ziggycat.exe ]; then
+            mv ziggycat.exe "ziggycat-${{ matrix.target }}.exe"
+          else
+            mv ziggycat "ziggycat-${{ matrix.target }}"
+          fi
+          ls -la ziggycat-${{ matrix.target }}*
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         if: startsWith(github.ref, 'refs/tags/')
         with:
           name: ziggycat-${{ matrix.target }}
-          path: zig-out/bin/ziggycat-${{ matrix.target }}
+          path: zig-out/bin/ziggycat-${{ matrix.target }}*
           if-no-files-found: error
 
   release:
