@@ -1,4 +1,5 @@
 <!--
+
   =============================================================================
   SEO METADATA & KEYWORD INDEX
   =============================================================================
@@ -16,6 +17,7 @@
   =============================================================================
 -->
 
+**Support:** fuel the next build — [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
 <div align="center">
 
 # zcat
@@ -32,9 +34,9 @@
 
 **by [Akash Priyadarshi](https://github.com/AkashPriyadarshii)** · Patna, Bihar, India
 
-*Fuel the next build:* [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
-
 </div>
+
+[![crates.io](https://img.shields.io/crates/v/zcat?style=flat-square)](https://crates.io/crates/zcat) [![downloads](https://img.shields.io/crates/d/zcat?style=flat-square)](https://crates.io/crates/zcat) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/zcat?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/zcat/releases)
 
 ---
 
@@ -198,7 +200,7 @@ MIT. Built by Akash Priyadarshi (Patna, Bihar, India).
 
 - GitHub: [AkashPriyadarshii](https://github.com/AkashPriyadarshii)
 - Portfolio: [akashpriyadarshi.vercel.app](https://akashpriyadarshi.vercel.app)
-- LinkedIn: [akash-priyadarshi-1aa51b37a](https://linkedin.com/in/akashpriyadarshii)
+- LinkedIn: [akashpriyadarshii](https://linkedin.com/in/akashpriyadarshii)
 - Resume: [akashpriyadarshii.github.io/Resume](https://akashpriyadarshii.github.io/Resume/)
 
 More from the ecosystem: [design-genius](https://github.com/AkashPriyadarshii/design-genius) · [akash-design-engineering](https://github.com/AkashPriyadarshii/akash-design-engineering) · [tdlib-android](https://github.com/AkashPriyadarshii/tdlib-android) · [kharcha](https://github.com/AkashPriyadarshii/kharcha)
