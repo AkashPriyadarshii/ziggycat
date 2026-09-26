@@ -103,7 +103,7 @@ fn testArgs(allocator: std.mem.Allocator, cmdline: []const u8) !Args {
 
 test "parse: combined short flags, last flag wins" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    const a = try testArgs(std.testing.allocator, "zcat -nbE");
+    const a = try testArgs(std.testing.allocator, "ziggycat -nbE");
     defer a.deinit(std.testing.allocator);
     try std.testing.expect(!a.number);
     try std.testing.expect(a.number_nonblank);
@@ -113,7 +113,7 @@ test "parse: combined short flags, last flag wins" {
 
 test "parse: -b -n => n wins" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    const a = try testArgs(std.testing.allocator, "zcat -b -n");
+    const a = try testArgs(std.testing.allocator, "ziggycat -b -n");
     defer a.deinit(std.testing.allocator);
     try std.testing.expect(a.number);
     try std.testing.expect(!a.number_nonblank);
@@ -121,7 +121,7 @@ test "parse: -b -n => n wins" {
 
 test "parse: -- ends flag parsing" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    const a = try testArgs(std.testing.allocator, "zcat -- -weird-name");
+    const a = try testArgs(std.testing.allocator, "ziggycat -- -weird-name");
     defer a.deinit(std.testing.allocator);
     try std.testing.expect(!a.number and !a.show_ends);
     try std.testing.expectEqual(@as(usize, 1), a.files.items.len);
@@ -130,13 +130,13 @@ test "parse: -- ends flag parsing" {
 
 test "parse: unknown option errors" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    try std.testing.expectError(error.UnknownOption, testArgs(std.testing.allocator, "zcat -z"));
-    try std.testing.expectError(error.UnknownOption, testArgs(std.testing.allocator, "zcat --bogus"));
+    try std.testing.expectError(error.UnknownOption, testArgs(std.testing.allocator, "ziggycat -z"));
+    try std.testing.expectError(error.UnknownOption, testArgs(std.testing.allocator, "ziggycat --bogus"));
 }
 
 test "parse: stdin dash + files" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    const a = try testArgs(std.testing.allocator, "zcat - f1 f2");
+    const a = try testArgs(std.testing.allocator, "ziggycat - f1 f2");
     defer a.deinit(std.testing.allocator);
     try std.testing.expectEqual(@as(usize, 3), a.files.items.len);
     try std.testing.expectEqualStrings("-", a.files.items[0]);
@@ -145,7 +145,7 @@ test "parse: stdin dash + files" {
 
 test "parse: long flags + json" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    const a = try testArgs(std.testing.allocator, "zcat --number-nonblank --json file");
+    const a = try testArgs(std.testing.allocator, "ziggycat --number-nonblank --json file");
     defer a.deinit(std.testing.allocator);
     try std.testing.expect(a.number_nonblank);
     try std.testing.expect(a.json_output);
@@ -154,7 +154,7 @@ test "parse: long flags + json" {
 
 test "parse: help returns immediately" {
     if (builtin.os.tag != .windows) return error.SkipZigTest;
-    const a = try testArgs(std.testing.allocator, "zcat file -h");
+    const a = try testArgs(std.testing.allocator, "ziggycat file -h");
     defer a.deinit(std.testing.allocator);
     try std.testing.expect(a.help);
 }

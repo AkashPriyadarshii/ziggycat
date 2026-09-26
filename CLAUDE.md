@@ -1,4 +1,4 @@
-# zcat
+# ziggycat
 
 ## What is this?
 
@@ -11,7 +11,7 @@ pure Zig 0.16.0, no deps, no libc. Windows-first; builds for macOS/Linux.
 zig build -Doptimize=ReleaseSmall
 ```
 
-Binary lands at `zig-out/bin/zcat` (~502KB ReleaseSmall).
+Binary lands at `zig-out/bin/ziggycat` (~502KB ReleaseSmall).
 
 ## Test
 
@@ -62,11 +62,11 @@ file failed).
 ## Install (Claude Code / general use)
 
 ```bash
-cp zig-out/bin/zcat.exe ~/.local/bin/zcat.exe
+cp zig-out/bin/ziggycat.exe ~/.local/bin/ziggycat.exe
 ```
 
-On PATH in PowerShell. In Git Bash, `zcat` collides with GNU gzip's zcat
-(decompressor) — use full path `~/.local/bin/zcat.exe` there.
+On PATH in PowerShell. In Git Bash, `zcat` in Git Bash means GNU gzip's decompressor
+(decompressor) — use full path `~/.local/bin/ziggycat.exe` there.
 
 ## Exit codes
 
@@ -88,5 +88,5 @@ build.zig.zon — package metadata
 - No external dependencies. Pure Zig 0.16.0.
 - Streaming I/O, no mmap. Flat memory on any input size.
 - Error messages go to stderr. Clean exit codes.
-- Benchmarks vs GNU cat: plain 4.6x, `-n` 27x, `-b` 21x, `-s` 18x
+- Benchmarks vs GNU cat: plain 4x, `-n` 20x, `-b` 26x, `-s` 19x
   (94MB / 2M-line fixture, ReleaseFast, median of 7). Full table in README.

@@ -37,7 +37,7 @@ const Out = struct {
         }
     }
 
-    fn writeByte(self: *Out, byte: u8) !void {
+    inline fn writeByte(self: *Out, byte: u8) !void {
         if (self.len == chunk_cap) try self.flush();
         self.data[self.len] = byte;
         self.len += 1;
@@ -177,6 +177,40 @@ const raw_io = if (is_windows) struct {
 
 const Self = @This();
 
+fn u64Len(n: u64) usize {
+    if (n == 0) return 1;
+    var v = n;
+    var len: usize = 0;
+    while (v > 0) : (v /= 10) len += 1;
+    return len;
+}
+
+fn writeU64(writer: *Out, n: u64) !void {
+    var tmp: [20]u8 = undefined;
+    const len = u64Len(n);
+    var v = n;
+    var i = len;
+    if (v == 0) {
+        tmp[0] = '0';
+    } else {
+        while (v > 0) : (v /= 10) {
+            i -= 1;
+            tmp[i] = @intCast('0' + (v % 10));
+        }
+    }
+    try writer.writeAll(tmp[0..len]);
+}
+
+// GNU `%6d\t` number column without format machinery.
+// ponytail: pad loop, no cached prefix; numbers change every line anyway.
+fn writeLineNum(writer: *Out, n: u64) !void {
+    const len = u64Len(n);
+    var s: usize = len;
+    while (s < 6) : (s += 1) try writer.writeByte(' ');
+    try writeU64(writer, n);
+    try writer.writeByte('\t');
+}
+
 io: Io,
 allocator: std.mem.Allocator,
 args: *const Args,
@@ -243,7 +277,7 @@ fn copyStream(self: *Self, in: File, out: File) !void {
     _ = self;
     const in_fd: usize = fd_of.get(in.handle);
     const out_fd: usize = fd_of.get(out.handle);
-    var buf: [262144]u8 = undefined;
+    var buf: [1048576]u8 = undefined;
     while (true) {
         const n = try raw_io.read(in_fd, &buf);
         if (n == 0) break;
@@ -388,9 +422,7 @@ fn writeJsonLine(self: *Self, w: JsonWriter, line: []const u8, line_num: *u64, f
 
     try w.writer.writeAll("{\"n\":");
 
-    var num_buf: [20]u8 = undefined;
-    const num_str = std.fmt.bufPrint(&num_buf, "{d}", .{line_num.*}) catch "1";
-    try w.writer.writeAll(num_str);
+    try writeU64(w.writer, line_num.*);
     line_num.* += 1;
 
     try w.writer.writeAll(",\"text\":\"");
@@ -404,7 +436,7 @@ fn processStdin(self: *Self) !void {
     }
 
     const stdin_fd: usize = fd_of.get(File.stdin().handle);
-    var stdin_buf: [262144]u8 = undefined;
+    var stdin_buf: [1048576]u8 = undefined;
 
     var stdout_writer = Out.init(fd_of.get(File.stdout().handle));
 
@@ -451,7 +483,7 @@ fn processFile(self: *Self, file_path: []const u8) !void {
     };
     }
 
-    var file_buf: [262144]u8 = undefined;
+    var file_buf: [1048576]u8 = undefined;
     const file_fd: usize = fd_of.get(file.handle);
 
     var stdout_writer = Out.init(fd_of.get(File.stdout().handle));
@@ -472,7 +504,7 @@ fn processFile(self: *Self, file_path: []const u8) !void {
 fn processStdinJson(self: *Self, w: JsonWriter) !void {
     try w.writer.writeAll("{\"path\":\"-\",\"size\":null,\"lines\":[");
 
-    var stdin_buf: [262144]u8 = undefined;
+    var stdin_buf: [1048576]u8 = undefined;
     const stdin_fd: usize = fd_of.get(File.stdin().handle);
 
     var pending = Pending{};
@@ -507,21 +539,25 @@ fn writeErrorRecord(self: *Self, w: JsonWriter, file_path: []const u8, err: anye
 }
 
 fn writeEscaped(_: *Self, writer: *Out, bytes: []const u8) !void {
-    for (bytes) |byte| {
-        switch (byte) {
+    const hex = "0123456789abcdef";
+    var i: usize = 0;
+    while (i < bytes.len) {
+        var j = i;
+        while (j < bytes.len and bytes[j] >= 0x20 and bytes[j] != '"' and bytes[j] != '\\') : (j += 1) {}
+        if (j > i) try writer.writeAll(bytes[i..j]);
+        i = j;
+        if (i >= bytes.len) break;
+        const b = bytes[i];
+        i += 1;
+        switch (b) {
             '"' => try writer.writeAll("\\\""),
             '\\' => try writer.writeAll("\\\\"),
             '\n' => {},
             '\r' => try writer.writeAll("\\r"),
             '\t' => try writer.writeAll("\\t"),
             else => {
-                if (byte >= 0x20) {
-                    try writer.writeByte(byte);
-                } else {
-                    var esc_buf: [6]u8 = undefined;
-                    const esc = std.fmt.bufPrint(&esc_buf, "\\u{x:0>4}", .{byte}) catch "\\ufffd";
-                    try writer.writeAll(esc);
-                }
+                const esc = [_]u8{ '\\', 'u', '0', '0', hex[b >> 4], hex[b & 0xF] };
+                try writer.writeAll(&esc);
             },
         }
     }
@@ -536,14 +572,14 @@ fn reportFileError(self: *Self, file_path: []const u8, err: anyerror) !void {
         else => "read error",
     };
     const stderr = File.stderr();
-    try stderr.writeStreamingAll(self.io, "zcat: ");
+    try stderr.writeStreamingAll(self.io, "ziggycat: ");
     try stderr.writeStreamingAll(self.io, file_path);
     try stderr.writeStreamingAll(self.io, ": ");
     try stderr.writeStreamingAll(self.io, msg);
     try stderr.writeStreamingAll(self.io, "\n");
 }
 
-fn processLine(
+inline fn processLine(
     self: *Self,
     writer: *Out,
     line: []const u8,
@@ -556,26 +592,22 @@ fn processLine(
     }
     self.prev_was_blank = is_blank;
 
-    var buf: [32]u8 = undefined;
-
     if ((self.args.number or self.args.number_nonblank) and !is_blank) {
-        const num_str = std.fmt.bufPrint(&buf, "{d:6}\t", .{self.line_number}) catch &buf;
-        try writer.writeAll(num_str);
+        try writeLineNum(writer, self.line_number);
         self.line_number += 1;
     } else if (self.args.number) {
-        const num_str = std.fmt.bufPrint(&buf, "{d:6}\t", .{self.line_number}) catch &buf;
-        try writer.writeAll(num_str);
+        try writeLineNum(writer, self.line_number);
         self.line_number += 1;
     }
 
     if (self.args.show_tabs) {
-        for (line) |byte| {
-            if (byte == '\t') {
-                try writer.writeAll("^I");
-            } else {
-                try writer.writeByte(byte);
-            }
+        var ti: usize = 0;
+        while (std.mem.indexOfScalarPos(u8, line, ti, '\t')) |t| {
+            try writer.writeAll(line[ti..t]);
+            try writer.writeAll("^I");
+            ti = t + 1;
         }
+        try writer.writeAll(line[ti..]);
     } else {
         try writer.writeAll(line);
     }
@@ -615,13 +647,11 @@ fn processFileJson(self: *Self, w: JsonWriter, file_path: []const u8) !void {
     try self.writeEscaped(w.writer, file_path);
     try w.writer.writeAll("\",\"size\":");
 
-    var size_buf: [20]u8 = undefined;
-    const size_str = std.fmt.bufPrint(&size_buf, "{d}", .{stat.size}) catch "0";
-    try w.writer.writeAll(size_str);
+    try writeU64(w.writer, stat.size);
 
     try w.writer.writeAll(",\"lines\":[");
 
-    var file_buf: [262144]u8 = undefined;
+    var file_buf: [1048576]u8 = undefined;
     const file_fd: usize = fd_of.get(file.handle);
 
     var pending = Pending{};

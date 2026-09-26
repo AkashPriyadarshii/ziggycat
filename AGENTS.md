@@ -1,4 +1,4 @@
-# zcat
+# ziggycat
 
 ## What is this?
 
@@ -11,7 +11,7 @@ pure Zig 0.16.0, no deps, no libc. Windows-first; builds for macOS/Linux.
 zig build -Doptimize=ReleaseSmall
 ```
 
-Binary lands at `zig-out/bin/zcat` (~502KB ReleaseSmall). Bench builds use
+Binary lands at `zig-out/bin/ziggycat` (~502KB ReleaseSmall). Bench builds use
 `-Doptimize=ReleaseFast`.
 
 ## Test
@@ -62,7 +62,7 @@ Combined short flags work: `-nbsET` is valid. `-n`/`-b` last-wins.
 
 - 0: success. 1: any file error (processing continues past failures).
 - 141: broken pipe on stdout, silent, SIGPIPE semantics.
-- Errors: `zcat: path: reason` on stderr. Dirs report "is a directory".
+- Errors: `ziggycat: path: reason` on stderr. Dirs report "is a directory".
 - JSON errors: `{"path":"...","error":"..."}` records, exit 1 if any.
 
 ## JSON output
@@ -82,17 +82,17 @@ entries. Unreadable files yield error records, processing continues.
 94MB fixture (2M lines), ReleaseFast, NUL sink, median of 7 via
 `perf_counter`, vs GNU cat 9.x:
 
-| Operation | zcat | cat | Speedup |
+| Operation | ziggycat | cat | Speedup |
 |-----------|------|-----|---------|
-| Plain | 8ms | 37ms | 4.6x |
-| `-n` | 6ms | 161ms | 27x |
-| `-b` | 7ms | 144ms | 21x |
-| `-s` | 7ms | 126ms | 18x |
-| `-E` | 8ms | 138ms | 17x |
-| `-T` | 6ms | 118ms | 20x |
-| `-TE` | 8ms | 115ms | 14x |
-| `-nbsET` | 7ms | 151ms | 22x |
-| `--json` | 8ms | n/a | |
+| Plain | 7ms | 28ms | 4x |
+| `-n` | 7ms | 137ms | 20x |
+| `-b` | 5ms | 130ms | 26x |
+| `-s` | 6ms | 112ms | 19x |
+| `-E` | 7ms | 109ms | 16x |
+| `-T` | 6ms | 105ms | 18x |
+| `-TE` | 6ms | 110ms | 18x |
+| `-nbsET` | 6ms | 130ms | 22x |
+| `--json` | 6ms | n/a | |
 
 ## Project structure
 

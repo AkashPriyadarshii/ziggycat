@@ -19,8 +19,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CI_YML = REPO_ROOT / ".github" / "workflows" / "ci.yml"
-BIN_EXE = REPO_ROOT / "zig-out" / "bin" / "zcat.exe"
-BIN_POSIX = REPO_ROOT / "zig-out" / "bin" / "zcat"
+BIN_EXE = REPO_ROOT / "zig-out" / "bin" / "ziggycat.exe"
+BIN_POSIX = REPO_ROOT / "zig-out" / "bin" / "ziggycat"
 
 
 def log(status: str, msg: str):

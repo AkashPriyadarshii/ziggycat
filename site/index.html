@@ -8,10 +8,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>zcat — fast cat replacement in pure Zig</title>
-<meta name="description" content="zcat is a drop-in cat replacement in pure Zig 0.16.0. Zero deps, no libc, byte-identical to GNU cat, 5-27x faster, --json mode for AI agents.">
-<meta property="og:title" content="zcat — fast cat replacement in pure Zig">
-<meta property="og:description" content="Byte-identical to GNU cat, 5-27x faster, zero deps. JSON output for AI agents.">
+<title>ziggycat — fast cat replacement in pure Zig</title>
+<meta name="description" content="ziggycat is a drop-in cat replacement in pure Zig 0.16.0. Zero deps, no libc, byte-identical to GNU cat, 4-26x faster, --json mode for AI agents.">
+<meta property="og:title" content="ziggycat — fast cat replacement in pure Zig">
+<meta property="og:description" content="Byte-identical to GNU cat, 4-26x faster, zero deps. JSON output for AI agents.">
 <meta property="og:type" content="website">
 <style>
 :root{
@@ -147,22 +147,22 @@ footer .by{grid-column:1/-1;color:var(--subtle);font-size:12px;letter-spacing:.5
 </head>
 <body>
 <header class="nav"><div class="wrap">
-<a class="brand" href="#top"><b>zcat</b>&nbsp;/&nbsp;v0.1.2</a>
-<nav><a href="#why">Why</a><a href="#flags">Flags</a><a href="#json">JSON</a><a href="#bench">Benchmarks</a><a href="#install">Install</a><a href="https://github.com/AkashPriyadarshii/zcat">GitHub</a></nav>
+<a class="brand" href="#top"><b>ziggycat</b>&nbsp;/&nbsp;v0.1.2</a>
+<nav><a href="#why">Why</a><a href="#flags">Flags</a><a href="#json">JSON</a><a href="#bench">Benchmarks</a><a href="#install">Install</a><a href="https://github.com/AkashPriyadarshii/ziggycat">GitHub</a></nav>
 </div></header>
 <main id="top">
 <div class="hero wrap">
 <div class="hero-copy">
 <p class="eyebrow">Pure Zig 0.16 &middot; Zero deps &middot; No libc</p>
-<h1>cat, but <span class="r">5&ndash;27x faster</span> and JSON-native.</h1>
-<p class="lede">zcat is a drop-in <code>cat</code> replacement in pure Zig. Byte-identical output on <code>-n -b -s -E -T -TE -nbsET</code>, plus a <code>--json</code> mode built for AI coding agents. One 502KB binary for Windows, macOS, Linux.</p>
-<div class="cta"><a class="btn btn-p" href="#install">Install in 3 commands</a><a class="btn btn-s" href="https://github.com/AkashPriyadarshii/zcat">View source</a></div>
+<h1>cat, but <span class="r">4&ndash;26x faster</span> and JSON-native.</h1>
+<p class="lede">ziggycat is a drop-in <code>cat</code> replacement in pure Zig. Byte-identical output on <code>-n -b -s -E -T -TE -nbsET</code>, plus a <code>--json</code> mode built for AI coding agents. One 502KB binary for Windows, macOS, Linux.</p>
+<div class="cta"><a class="btn btn-p" href="#install">Install in 3 commands</a><a class="btn btn-s" href="https://github.com/AkashPriyadarshii/ziggycat">View source</a></div>
 </div>
 <aside class="hero-meta"><b>Spec sheet</b>502KB binary &middot; 0 deps &middot; exit 141 on broken pipe &middot; GNU cat 9.x byte-identical</aside>
-<figure class="demo rv"><img src="assets/zcat-demo.svg" alt="Terminal demo of zcat -n"><figcaption><span>FIG. 01 — zcat -n src/main.zig</span><span>grid variant</span></figcaption></figure>
+<figure class="demo rv"><img src="assets/ziggycat-demo.svg" alt="Terminal demo of ziggycat -n"><figcaption><span>FIG. 01 — ziggycat -n src/main.zig</span><span>grid variant</span></figcaption></figure>
 <div class="stats">
 <div class="stat rv"><div class="n">502<em>KB</em></div><div class="l">single binary, no runtime</div></div>
-<div class="stat rv"><div class="n"><em>5&ndash;27x</em></div><div class="l">faster than GNU cat 9.x</div></div>
+<div class="stat rv"><div class="n"><em>4&ndash;26x</em></div><div class="l">faster than GNU cat 9.x</div></div>
 <div class="stat rv"><div class="n">0</div><div class="l">dependencies, no libc</div></div>
 <div class="stat rv"><div class="n">141</div><div class="l">broken-pipe exit, SIGPIPE semantics</div></div>
 </div>
@@ -170,19 +170,19 @@ footer .by{grid-column:1/-1;color:var(--subtle);font-size:12px;letter-spacing:.5
 <section id="why"><div class="wrap sec">
 <span class="margin-float" aria-hidden="true">01</span>
 <p class="sec-eyebrow">01 &mdash; Why</p>
-<h2>Why <b>zcat</b> exists</h2>
+<h2>Why <b>ziggycat</b> exists</h2>
 <p class="sec-sub">The most-piped command in every agent toolchain, optimized for agents that read files in loops.</p>
 <div class="why-grid">
 <div class="why rv"><h3><span class="tick">&#10003;</span> Byte-identical, provably</h3><p>Line modes verified byte-for-byte against coreutils <code>cat</code> 9.x. Scripts cannot tell the difference.</p></div>
 <div class="why rv"><h3><span class="tick">&#10003;</span> Agent-first JSON</h3><p>One flag: <code>path</code>, <code>size</code>, numbered <code>lines</code>, escape-safe text, error records that don't kill the batch.</p></div>
-<div class="why rv"><h3><span class="tick">&#10003;</span> Fast without tricks</h3><p>No mmap, no threads, no unsafe. Raw syscalls, one 256KB buffer, zero-copy line splitting. Flat memory at any input size.</p></div>
+<div class="why rv"><h3><span class="tick">&#10003;</span> Fast without tricks</h3><p>No mmap, no threads, no unsafe. Raw syscalls, 1MB buffers, zero-copy line splitting. Flat memory at any input size.</p></div>
 <div class="why rv"><h3><span class="tick">&#10003;</span> Exit codes pipelines respect</h3><p><code>0</code> success, <code>1</code> file error (continues), <code>141</code> broken pipe, silent.</p></div>
 </div></div></section>
 <section id="flags"><div class="wrap sec alt-weight">
 <span class="margin-float" aria-hidden="true">02</span>
 <p class="sec-eyebrow">02 &mdash; Flags</p>
 <h2>Eight flags. <b>Combined shorts work.</b></h2>
-<p class="sec-sub"><code>zcat -nbsET file.txt</code> is valid. <code>-n</code>/<code>-b</code> are last-wins. A lone <code>-</code> reads stdin anywhere in the list.</p>
+<p class="sec-sub"><code>ziggycat -nbsET file.txt</code> is valid. <code>-n</code>/<code>-b</code> are last-wins. A lone <code>-</code> reads stdin anywhere in the list.</p>
 <div class="tbl rv"><table><thead><tr><th>Short</th><th>Long</th><th>Effect</th></tr></thead><tbody>
 <tr><td><code>-n</code></td><td><code>--number</code></td><td>Number every output line, including blanks</td></tr>
 <tr><td><code>-b</code></td><td><code>--number-nonblank</code></td><td>Number non-empty lines only</td></tr>
@@ -197,7 +197,7 @@ footer .by{grid-column:1/-1;color:var(--subtle);font-size:12px;letter-spacing:.5
 <span class="margin-float" aria-hidden="true">03</span>
 <p class="sec-eyebrow">03 &mdash; JSON</p>
 <h2>Structured reads, <b>not text dumps.</b></h2>
-<p class="sec-sub"><code>zcat --json example.txt</code></p>
+<p class="sec-sub"><code>ziggycat --json example.txt</code></p>
 <div class="json-grid">
 <div class="json-code rv"><p class="copybar">OUTPUT</p><pre><code><span class="k">{"files"</span>:[{"path":<span class="s">"example.txt"</span>,<span class="k">"size"</span>:<span class="n">2048</span>,"lines":[{"n":<span class="n">1</span>,"text":<span class="s">"first line"</span>}]}]}</code></pre></div>
 <ul class="json-list rv">
@@ -212,29 +212,29 @@ footer .by{grid-column:1/-1;color:var(--subtle);font-size:12px;letter-spacing:.5
 <p class="sec-eyebrow">04 &mdash; Benchmarks</p>
 <h2>Faster than <b>GNU cat 9.x.</b></h2>
 <p class="sec-sub">94MB file (2M lines), ReleaseFast, sink /dev/null, median of 7 runs.</p>
-<div class="tbl rv"><table><thead><tr><th>Operation</th><th class="num">zcat</th><th class="num">cat</th><th class="num">Speedup</th></tr></thead><tbody>
-<tr><td>Plain copy</td><td class="num">8ms</td><td class="num">37ms</td><td class="num up">4.6x</td></tr>
-<tr><td><code>-n</code> number all</td><td class="num">6ms</td><td class="num">161ms</td><td class="num up">27x</td></tr>
-<tr><td><code>-b</code> number non-blank</td><td class="num">7ms</td><td class="num">144ms</td><td class="num up">21x</td></tr>
-<tr><td><code>-s</code> squeeze</td><td class="num">7ms</td><td class="num">126ms</td><td class="num up">18x</td></tr>
-<tr><td><code>-E</code> show ends</td><td class="num">8ms</td><td class="num">138ms</td><td class="num up">17x</td></tr>
-<tr><td><code>-T</code> show tabs</td><td class="num">6ms</td><td class="num">118ms</td><td class="num up">20x</td></tr>
-<tr><td><code>-TE</code> tabs + ends</td><td class="num">8ms</td><td class="num">115ms</td><td class="num up">14x</td></tr>
-<tr><td><code>-nbsET</code> all flags</td><td class="num">7ms</td><td class="num">151ms</td><td class="num up">22x</td></tr>
-<tr><td><code>--json</code></td><td class="num">8ms</td><td class="num">&mdash;</td><td class="num">no counterpart</td></tr>
+<div class="tbl rv"><table><thead><tr><th>Operation</th><th class="num">ziggycat</th><th class="num">cat</th><th class="num">Speedup</th></tr></thead><tbody>
+<tr><td>Plain copy</td><td class="num">7ms</td><td class="num">28ms</td><td class="num up">4x</td></tr>
+<tr><td><code>-n</code> number all</td><td class="num">7ms</td><td class="num">137ms</td><td class="num up">20x</td></tr>
+<tr><td><code>-b</code> number non-blank</td><td class="num">5ms</td><td class="num">130ms</td><td class="num up">26x</td></tr>
+<tr><td><code>-s</code> squeeze</td><td class="num">6ms</td><td class="num">112ms</td><td class="num up">19x</td></tr>
+<tr><td><code>-E</code> show ends</td><td class="num">7ms</td><td class="num">109ms</td><td class="num up">16x</td></tr>
+<tr><td><code>-T</code> show tabs</td><td class="num">6ms</td><td class="num">105ms</td><td class="num up">18x</td></tr>
+<tr><td><code>-TE</code> tabs + ends</td><td class="num">6ms</td><td class="num">110ms</td><td class="num up">18x</td></tr>
+<tr><td><code>-nbsET</code> all flags</td><td class="num">6ms</td><td class="num">130ms</td><td class="num up">22x</td></tr>
+<tr><td><code>--json</code></td><td class="num">6ms</td><td class="num">&mdash;</td><td class="num">no counterpart</td></tr>
 </tbody></table></div></div></section>
 <section id="install"><div class="wrap sec">
 <span class="margin-float" aria-hidden="true">05</span>
 <p class="sec-eyebrow">05 &mdash; Install</p>
 <h2>Clone, <b>build, alias.</b></h2>
-<p class="sec-sub">Requires Zig 0.16.0. Binary lands at <code>zig-out/bin/zcat</code> (~502KB).</p>
+<p class="sec-sub">Requires Zig 0.16.0. Binary lands at <code>zig-out/bin/ziggycat</code> (~502KB).</p>
 <div class="steps">
-<div class="step rv"><span class="no">STEP 01</span><h3>Clone</h3><pre>git clone https://github.com/AkashPriyadarshii/zcat.git
-cd zcat</pre></div>
+<div class="step rv"><span class="no">STEP 01</span><h3>Clone</h3><pre>git clone https://github.com/AkashPriyadarshii/ziggycat.git
+cd ziggycat</pre></div>
 <div class="step rv"><span class="no">STEP 02</span><h3>Build</h3><p>Bench builds use ReleaseFast.</p><pre>zig build -Doptimize=ReleaseSmall</pre></div>
-<div class="step rv"><span class="no">STEP 03</span><h3>Alias</h3><pre>alias cat=zcat</pre></div>
+<div class="step rv"><span class="no">STEP 03</span><h3>Alias</h3><pre>alias cat=ziggycat</pre></div>
 </div>
-<div class="warn rv"><strong>Windows note:</strong> in Git Bash, <code>zcat</code> collides with gzip's zcat. Use the full path (<code>~/.local/bin/zcat.exe</code>) there.</div>
+<div class="warn rv"><strong>Windows note:</strong> in Git Bash, <code>ziggycat</code> means gzip's decompressor. ziggycat keeps its own name. Install at <code>~/.local/bin/ziggycat.exe</code>.</div>
 </div></section>
 <section id="trilogy"><div class="wrap sec alt-weight">
 <span class="margin-float" aria-hidden="true">06</span>
@@ -242,7 +242,7 @@ cd zcat</pre></div>
 <h2>Read, <b>find, orient.</b></h2>
 <p class="sec-sub">File reading, search, and orientation as token-budgeted CLI tools.</p>
 <div class="trio">
-<a class="rv" href="https://github.com/AkashPriyadarshii/zcat"><span class="verb">Read</span><span class="name">zcat</span><span class="how">a file, structured — you are here</span></a>
+<a class="rv" href="https://github.com/AkashPriyadarshii/ziggycat"><span class="verb">Read</span><span class="name">ziggycat</span><span class="how">a file, structured — you are here</span></a>
 <a class="rv" href="https://github.com/AkashPriyadarshii/rustygrep"><span class="verb">Find</span><span class="name">rustygrep</span><span class="how">a needle, token-cheap</span></a>
 <a class="rv" href="https://github.com/AkashPriyadarshii/repomap"><span class="verb">Orient</span><span class="name">repomap</span><span class="how">where am I, what's here</span></a>
 </div></div></section>
@@ -267,7 +267,7 @@ cd zcat</pre></div>
 <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
 <li><a href="https://reddit.com/user/akashpriyadarshi">Reddit</a></li>
 </ul></div>
-<div class="by"><span>zcat — MIT. Pure Zig 0.16.0. Grid variant.</span><span>Concept, design &amp; code by Akash Priyadarshi.</span></div>
+<div class="by"><span>ziggycat — MIT. Pure Zig 0.16.0. Grid variant.</span><span>Concept, design &amp; code by Akash Priyadarshi.</span></div>
 </div></footer>
 <script>
 const els=document.querySelectorAll(".rv");

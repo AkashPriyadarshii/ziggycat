@@ -11,11 +11,11 @@ pub fn main(init: std.process.Init) !void {
 
     var args = Args.parse(gpa, init.minimal.args) catch |err| switch (err) {
         error.UnknownOption => {
-            try File.stderr().writeStreamingAll(io, "zcat: unknown option\n");
+            try File.stderr().writeStreamingAll(io, "ziggycat: unknown option\n");
             std.process.exit(1);
         },
         error.OutOfMemory => {
-            try File.stderr().writeStreamingAll(io, "zcat: out of memory\n");
+            try File.stderr().writeStreamingAll(io, "ziggycat: out of memory\n");
             std.process.exit(1);
         },
     };
@@ -33,7 +33,7 @@ pub fn main(init: std.process.Init) !void {
 
     var cat = Cat.init(gpa, io, &args) catch |err| switch (err) {
         error.OutOfMemory => {
-            try File.stderr().writeStreamingAll(io, "zcat: out of memory\n");
+            try File.stderr().writeStreamingAll(io, "ziggycat: out of memory\n");
             std.process.exit(1);
         },
     };
@@ -43,7 +43,7 @@ pub fn main(init: std.process.Init) !void {
         cat.processJson() catch |err| switch (err) {
             error.BrokenPipe => std.process.exit(141), // SIGPIPE semantics
             error.InputOutput => {
-                try File.stderr().writeStreamingAll(io, "zcat: i/o error\n");
+                try File.stderr().writeStreamingAll(io, "ziggycat: i/o error\n");
                 std.process.exit(1);
             },
             else => return err,
@@ -51,12 +51,12 @@ pub fn main(init: std.process.Init) !void {
     } else {
         cat.process() catch |err| switch (err) {
             error.OutOfMemory => {
-                try File.stderr().writeStreamingAll(io, "zcat: out of memory\n");
+                try File.stderr().writeStreamingAll(io, "ziggycat: out of memory\n");
                 std.process.exit(1);
             },
             error.BrokenPipe => std.process.exit(141), // SIGPIPE semantics
             error.InputOutput => {
-                try File.stderr().writeStreamingAll(io, "zcat: i/o error\n");
+                try File.stderr().writeStreamingAll(io, "ziggycat: i/o error\n");
                 std.process.exit(1);
             },
             else => return err,
@@ -67,9 +67,9 @@ pub fn main(init: std.process.Init) !void {
 }
 
 const help_text =
-    \\zcat v0.1.2 - A modern cat replacement
+    \\ziggycat v0.2.0 - A modern cat replacement
     \\
-    \\Usage: zcat [OPTIONS] [FILE...]
+    \\Usage: ziggycat [OPTIONS] [FILE...]
     \\
     \\Read files and write to standard output.
     \\
@@ -84,11 +84,11 @@ const help_text =
     \\  -V, --version         Display version and exit
     \\
     \\Examples:
-    \\  zcat file.txt          Print file contents
-    \\  zcat -n file.txt       Print with line numbers
-    \\  zcat *.md              Print all markdown files
-    \\  zcat --json file.txt   Print as JSON for AI agents
+    \\  ziggycat file.txt          Print file contents
+    \\  ziggycat -n file.txt       Print with line numbers
+    \\  ziggycat *.md              Print all markdown files
+    \\  ziggycat --json file.txt   Print as JSON for AI agents
     \\
 ;
 
-const version_text = "zcat 0.1.2\n";
+const version_text = "ziggycat 0.2.0\n";

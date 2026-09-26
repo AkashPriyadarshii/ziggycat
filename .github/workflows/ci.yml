@@ -36,12 +36,12 @@ jobs:
         run: |
           set -e
           if [ "$RUNNER_OS" = "Windows" ]; then
-            B="zig-out/bin/zcat.exe"
+            B="zig-out/bin/ziggycat.exe"
           else
-            B="zig-out/bin/zcat"
+            B="zig-out/bin/ziggycat"
           fi
           "$B" --version >/dev/null
-          # Checks write to files first: early-exit pipes EPIPE zcat (141)
+          # Checks write to files first: early-exit pipes EPIPE ziggycat (141)
           # and pipefail would kill the step on Linux/macOS.
           # -n numbers blanks GNU-style, -b skips them
           printf 'a\n\nb\n' | "$B" -n >.ci-out
@@ -68,7 +68,7 @@ jobs:
       - name: Check binary size
         shell: bash
         run: |
-          SIZE=$(wc -c < zig-out/bin/zcat 2>/dev/null || wc -c < zig-out/bin/zcat.exe)
+          SIZE=$(wc -c < zig-out/bin/ziggycat 2>/dev/null || wc -c < zig-out/bin/ziggycat.exe)
           echo "Binary size: $SIZE bytes (limit 600000)"
           [ "$SIZE" -le 600000 ] || { echo "FAIL: binary too large"; exit 1; }
 
@@ -77,15 +77,15 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           cd zig-out/bin
-          mv zcat* zcat-${{ matrix.target }}
-          ls -la zcat-${{ matrix.target }}
+          mv ziggycat* ziggycat-${{ matrix.target }}
+          ls -la ziggycat-${{ matrix.target }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: zcat-${{ matrix.target }}
-          path: zig-out/bin/zcat-${{ matrix.target }}
+          name: ziggycat-${{ matrix.target }}
+          path: zig-out/bin/ziggycat-${{ matrix.target }}
           if-no-files-found: error
 
   release:
@@ -116,13 +116,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: dist/zcat-*/zcat-*
+          files: dist/ziggycat-*/ziggycat-*
 
       - name: Attach assets only (release already exists)
         if: steps.rel.outputs.exists == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for f in dist/zcat-*/zcat-*; do
+          for f in dist/ziggycat-*/ziggycat-*; do
             gh release upload "$GITHUB_REF_NAME" "$f" --clobber
           done

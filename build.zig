@@ -13,7 +13,7 @@ pub fn build(b: *std.Build) void {
     });
 
     const exe = b.addExecutable(.{
-        .name = "zcat",
+        .name = "ziggycat",
         .root_module = root_module,
     });
     b.installArtifact(exe);
@@ -24,7 +24,7 @@ pub fn build(b: *std.Build) void {
         run_cmd.addArgs(args);
     }
 
-    const run_step = b.step("run", "Run zcat");
+    const run_step = b.step("run", "Run ziggycat");
     run_step.dependOn(&run_cmd.step);
 
     const exe_tests = b.addTest(.{
