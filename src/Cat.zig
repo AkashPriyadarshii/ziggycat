@@ -181,8 +181,67 @@ const raw_io = if (is_windows) struct {
         else => @compileError("unsupported arch"),
     };
 
+    const sys_read = switch (builtin.cpu.arch) {
+        .x86_64 => struct {
+            fn call(fd: i32, buf: [*]u8, len: usize) usize {
+                if (comptime is_macos) {
+                    return asm volatile ("xorl %ecx, %ecx\n\tsyscall\n\tsbb %rcx, %rcx\n\tmov %rax, %r11\n\tneg %r11\n\tand %rcx, %r11\n\tnot %rcx\n\tand %rcx, %rax\n\tor %r11, %rax"
+                        : [ret] "={rax}" (-> usize),
+                        : [nr] "{rax}" (@as(usize, 0x2000003)),
+                          [fd] "{rdi}" (@as(usize, @intCast(fd))),
+                          [p] "{rsi}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{rdx}" (len),
+                        : .{ .rcx = true, .r11 = true, .memory = true }
+                    );
+                } else {
+                    return asm volatile ("syscall"
+                        : [ret] "={rax}" (-> usize),
+                        : [nr] "{rax}" (@as(usize, 0)),
+                          [fd] "{rdi}" (@as(usize, @intCast(fd))),
+                          [p] "{rsi}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{rdx}" (len),
+                        : .{ .rcx = true, .r11 = true, .memory = true }
+                    );
+                }
+            }
+        },
+        .aarch64 => struct {
+            fn call(fd: i32, buf: [*]u8, len: usize) usize {
+                if (comptime is_macos) {
+                    return asm volatile ("mov x16, x8\n\tsvc #0x80\n\tcsneg x0, x0, x0, cs"
+                        : [ret] "={x0}" (-> usize),
+                        : [nr] "{x8}" (@as(usize, 0x2000003)),
+                          [fd] "{x0}" (@as(usize, @intCast(fd))),
+                          [p] "{x1}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{x2}" (len),
+                        : .{ .memory = true }
+                    );
+                } else {
+                    return asm volatile ("svc #0"
+                        : [ret] "={x0}" (-> usize),
+                        : [nr] "{x8}" (@as(usize, 63)),
+                          [fd] "{x0}" (@as(usize, @intCast(fd))),
+                          [p] "{x1}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{x2}" (len),
+                        : .{ .memory = true }
+                    );
+                }
+            }
+        },
+        else => @compileError("unsupported arch"),
+    };
+
     fn read(hFile: usize, buf: []u8) !usize {
-        return std.posix.read(@intCast(hFile), buf);
+        // Reads come from the same raw-syscall path as writes: macOS
+        // returns errors via carry flag, Linux returns -errno.
+        const ret: isize = @bitCast(sys_read.call(@intCast(hFile), buf.ptr, buf.len));
+        if (ret < 0) {
+            return switch (@as(u32, @truncate(@as(u64, @bitCast(-ret))))) {
+                4 => error.WouldBlock, // EINTR: caller retries
+                else => error.InputOutput,
+            };
+        }
+        return @intCast(ret);
     }
 
     fn write(hFile: usize, bytes: []const u8) !usize {
@@ -476,7 +535,10 @@ fn processStdin(self: *Self) !void {
     defer pending.deinit(self.allocator);
 
     while (true) {
-        const bytes_read = try raw_io.read(stdin_fd, &stdin_buf);
+        const bytes_read = raw_io.read(stdin_fd, &stdin_buf) catch |err| {
+            if (err == error.WouldBlock) continue; // EINTR: retry
+            return err;
+        };
         if (bytes_read == 0) break;
         try self.feed(&pending, &stdout_writer, stdin_buf[0..bytes_read], false);
     }
@@ -524,7 +586,10 @@ fn processFile(self: *Self, file_path: []const u8) !void {
     defer pending.deinit(self.allocator);
 
     while (true) {
-        const bytes_read = try raw_io.read(file_fd, &file_buf);
+        const bytes_read = raw_io.read(file_fd, &file_buf) catch |err| {
+            if (err == error.WouldBlock) continue; // EINTR: retry
+            return err;
+        };
         if (bytes_read == 0) break;
         try self.feed(&pending, &stdout_writer, file_buf[0..bytes_read], false);
     }
@@ -546,7 +611,10 @@ fn processStdinJson(self: *Self, w: JsonWriter) !void {
     var first_line = true;
 
     while (true) {
-        const bytes_read = try raw_io.read(stdin_fd, &stdin_buf);
+        const bytes_read = raw_io.read(stdin_fd, &stdin_buf) catch |err| {
+            if (err == error.WouldBlock) continue; // EINTR: retry
+            return err;
+        };
         if (bytes_read == 0) break;
         try self.feedJson(&pending, w, stdin_buf[0..bytes_read], false, &line_num, &first_line);
     }
@@ -693,7 +761,10 @@ fn processFileJson(self: *Self, w: JsonWriter, file_path: []const u8) !void {
     var first_line = true;
 
     while (true) {
-        const bytes_read = try raw_io.read(file_fd, &file_buf);
+        const bytes_read = raw_io.read(file_fd, &file_buf) catch |err| {
+            if (err == error.WouldBlock) continue; // EINTR: retry
+            return err;
+        };
         if (bytes_read == 0) break;
         try self.feedJson(&pending, w, file_buf[0..bytes_read], false, &line_num, &first_line);
     }
