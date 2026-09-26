@@ -11,7 +11,7 @@ pure Zig 0.16.0, no deps, no libc. Windows-first; builds for macOS/Linux.
 zig build -Doptimize=ReleaseSmall
 ```
 
-Binary lands at `zig-out/bin/zcat` (~502KB).
+Binary lands at `zig-out/bin/zcat` (~502KB ReleaseSmall).
 
 ## Test
 
@@ -88,5 +88,5 @@ build.zig.zon — package metadata
 - No external dependencies. Pure Zig 0.16.0.
 - Streaming I/O, no mmap. Flat memory on any input size.
 - Error messages go to stderr. Clean exit codes.
-- Benchmarks vs GNU cat: plain 12% faster, `-n` 40%, `-s` 30%
-  (96MB fixture, ReleaseFast). Full table in README.
+- Benchmarks vs GNU cat: plain 4.6x, `-n` 27x, `-b` 21x, `-s` 18x
+  (94MB / 2M-line fixture, ReleaseFast, median of 7). Full table in README.

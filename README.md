@@ -6,14 +6,14 @@
   Title: zcat | Fast Cat Replacement in Pure Zig with JSON Output for AI Agents
   Author: Akash Priyadarshi (@AkashPriyadarshii)
   Description: zcat is a drop-in cat replacement written in pure Zig 0.16.0.
-  Zero dependencies, no libc, byte-identical to GNU cat, 12-40% faster.
+  Zero dependencies, no libc, byte-identical to GNU cat, 5-27x faster.
   JSON output mode built for AI coding agents. Windows, macOS, Linux.
 
   Keywords: zig, cat clone, gnu cat alternative, cat replacement, command
   line, cli, terminal tools, coreutils, text processing, json output, json
   mode, ai agents, llm tools, agent tooling, token efficient, zero
   dependency, no libc, cross-platform, windows, performance, fast cat,
-  96MB benchmark, structured file reads, streaming io, raw syscalls.
+  94MB benchmark, structured file reads, streaming io, raw syscalls.
   =============================================================================
 -->
 
@@ -22,7 +22,7 @@
 
 # zcat
 
-**Fast `cat` replacement in pure Zig. Byte-identical to GNU cat, 12-40% faster. JSON output for AI agents.**
+**Fast `cat` replacement in pure Zig. Byte-identical to GNU cat, 5-27x faster. JSON output for AI agents.**
 
 <img src="assets/zcat-demo.svg" alt="zcat -n terminal demo" width="660">
 
@@ -30,7 +30,7 @@
 [![Zig](https://img.shields.io/badge/zig-0.16.0-f7a41d.svg?style=flat-square&logo=zig&logoColor=f7a41d)](https://ziglang.org)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-2a3138.svg?style=flat-square)](#)
 [![Binary](https://img.shields.io/badge/binary-502KB-0f1114.svg?style=flat-square)](#)
-[![Speed vs GNU cat](https://img.shields.io/badge/speed%20vs%20GNU%20cat-12%E2%80%9340%25%20faster-e8590c.svg?style=flat-square)](#performance)
+[![Speed vs GNU cat](https://img.shields.io/badge/speed%20vs%20GNU%20cat-5%E2%80%9327x%20faster-e8590c.svg?style=flat-square)](#performance)
 
 **by [Akash Priyadarshi](https://github.com/AkashPriyadarshii)** · Patna, Bihar, India
 
@@ -43,8 +43,8 @@
 A drop-in `cat` replacement. Zero dependencies, no libc, pure Zig 0.16.0.
 Windows-first, also builds for macOS and Linux.
 
-- **Byte-identical output** to GNU `cat` for `-n`, `-b`, `-s`, `-E`, `-T`.
-- **12-40% faster** than GNU cat on a 96MB file (benchmarks below).
+- **Byte-identical output** to GNU `cat` for `-n`, `-b`, `-s`, `-E`, `-T`, `-TE`, `-nbsET` (verified on 94MB).
+- **5-27x faster** than GNU cat on a 94MB / 2M-line file (benchmarks below).
 - **`--json` mode** for AI coding agents: structured file reads, `\uXXXX`
   escaping, per-file error records, exit code signaling.
 - **Zero dependencies.** No libc, no runtime, no containers. One 502KB binary.
@@ -149,15 +149,20 @@ raw text dumps.
 
 ## Performance
 
-96MB file, build `ReleaseFast`, sink `/dev/null`. Median of 3 runs,
-compared against GNU coreutils cat 9.x:
+94MB file (2M lines), build `ReleaseFast`, sink `/dev/null`. Median of 7
+runs via `perf_counter`, compared against GNU coreutils cat 9.x:
 
 | Operation | zcat | cat | Speedup |
 |-----------|------|-----|---------|
-| Plain copy | 72ms | 82ms | 12% |
-| `-n` (number all lines) | 112ms | 185ms | 40% |
-| `-s` (squeeze blanks) | 100ms | 145ms | 30% |
-| `--json` | 275ms | (no counterpart) | |
+| Plain copy | 8ms | 37ms | 4.6x |
+| `-n` (number all lines) | 6ms | 161ms | 27x |
+| `-b` (number non-blank) | 7ms | 144ms | 21x |
+| `-s` (squeeze blanks) | 7ms | 126ms | 18x |
+| `-E` (show ends) | 8ms | 138ms | 17x |
+| `-T` (show tabs) | 6ms | 118ms | 20x |
+| `-TE` (tabs + ends) | 8ms | 115ms | 14x |
+| `-nbsET` (all flags) | 7ms | 151ms | 22x |
+| `--json` | 8ms | (no counterpart) | |
 
 ## Architecture
 

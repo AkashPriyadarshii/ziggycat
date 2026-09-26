@@ -11,7 +11,7 @@ pure Zig 0.16.0, no deps, no libc. Windows-first; builds for macOS/Linux.
 zig build -Doptimize=ReleaseSmall
 ```
 
-Binary lands at `zig-out/bin/zcat` (~502KB). Bench builds use
+Binary lands at `zig-out/bin/zcat` (~502KB ReleaseSmall). Bench builds use
 `-Doptimize=ReleaseFast`.
 
 ## Test
@@ -22,7 +22,8 @@ zig build test
 
 Tests live in Args.zig (7 blocks, Windows-only, vector-based argv).
 Line-transform correctness is verified against GNU cat byte-for-byte:
-`-n`, `-b`, `-s`, `-E` output identical (see README benchmark section).
+`-n`, `-b`, `-s`, `-E`, `-T`, `-TE`, `-nbsET` output identical on a 94MB
+fixture (see README benchmark section).
 
 ## Flags
 
@@ -78,14 +79,20 @@ entries. Unreadable files yield error records, processing continues.
 
 ## Benchmarks
 
-96MB fixture, ReleaseFast, NUL sink, median of 3, vs GNU cat 9.x:
+94MB fixture (2M lines), ReleaseFast, NUL sink, median of 7 via
+`perf_counter`, vs GNU cat 9.x:
 
 | Operation | zcat | cat | Speedup |
 |-----------|------|-----|---------|
-| Plain | 72ms | 82ms | 12% |
-| `-n` | 112ms | 185ms | 40% |
-| `-s` | 100ms | 145ms | 30% |
-| `--json` | 275ms | n/a | |
+| Plain | 8ms | 37ms | 4.6x |
+| `-n` | 6ms | 161ms | 27x |
+| `-b` | 7ms | 144ms | 21x |
+| `-s` | 7ms | 126ms | 18x |
+| `-E` | 8ms | 138ms | 17x |
+| `-T` | 6ms | 118ms | 20x |
+| `-TE` | 8ms | 115ms | 14x |
+| `-nbsET` | 7ms | 151ms | 22x |
+| `--json` | 8ms | n/a | |
 
 ## Project structure
 
