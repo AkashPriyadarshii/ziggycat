@@ -118,32 +118,64 @@ const raw_io = if (is_windows) struct {
 } else struct {
     // std.posix.write was removed in 0.16 (write goes through evented Io).
     // No-libc raw write needs a direct syscall, arch + OS keyed to the CI
-    // matrix: x86_64-linux and aarch64-macos. macOS prefixes BSD numbers.
+    // matrix: x86_64-linux and aarch64-macos.
+    //
+    // Linux returns -errno in the return register. macOS instead sets the
+    // carry flag and returns errno positive, so the macOS sequences fold
+    // that into a negative return (aarch64: csneg on carry; x86_64: setc
+    // into a zeroed register, negate in Zig below). macOS prefixes BSD
+    // numbers (write = 0x2000004) and takes the number in x16 on aarch64.
+    const is_macos = builtin.os.tag == .macos;
     const sys_write = switch (builtin.cpu.arch) {
         .x86_64 => struct {
             fn call(fd: i32, buf: [*]const u8, len: usize) usize {
-                const nr = if (builtin.os.tag == .macos) @as(usize, 0x2000004) else @as(usize, 1);
-                return asm volatile ("syscall"
-                    : [ret] "={rax}" (-> usize),
-                    : [nr] "{rax}" (nr),
-                      [fd] "{rdi}" (@as(usize, @intCast(fd))),
-                      [p]  "{rsi}" (@as(usize, @intFromPtr(buf))),
-                      [n]  "{rdx}" (len),
-                    : .{ .rcx = true, .r11 = true, .memory = true }
-                );
+                if (comptime is_macos) {
+                    // Carry flag holds the error bit: fold it into rax so
+                    // errors come back negative like Linux (-errno).
+                    // rcx/r11 are syscall-clobbered, safe as scratch.
+                    return asm volatile ("xorl %ecx, %ecx\n\tsyscall\n\tsbb %rcx, %rcx\n\tmov %rax, %r11\n\tneg %r11\n\tand %rcx, %r11\n\tnot %rcx\n\tand %rcx, %rax\n\tor %r11, %rax"
+                        : [ret] "={rax}" (-> usize),
+                        : [nr] "{rax}" (@as(usize, 0x2000004)),
+                          [fd] "{rdi}" (@as(usize, @intCast(fd))),
+                          [p] "{rsi}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{rdx}" (len),
+                        : .{ .rcx = true, .r11 = true, .memory = true }
+                    );
+                } else {
+                    return asm volatile ("syscall"
+                        : [ret] "={rax}" (-> usize),
+                        : [nr] "{rax}" (@as(usize, 1)),
+                          [fd] "{rdi}" (@as(usize, @intCast(fd))),
+                          [p] "{rsi}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{rdx}" (len),
+                        : .{ .rcx = true, .r11 = true, .memory = true }
+                    );
+                }
             }
         },
         .aarch64 => struct {
             fn call(fd: i32, buf: [*]const u8, len: usize) usize {
-                const nr = if (builtin.os.tag == .macos) @as(usize, 0x2000004) else @as(usize, 64);
-                return asm volatile ("svc #0"
-                    : [ret] "={x0}" (-> usize),
-                    : [nr] "{x8}" (nr),
-                      [fd] "{x0}" (@as(usize, @intCast(fd))),
-                      [p]  "{x1}" (@as(usize, @intFromPtr(buf))),
-                      [n]  "{x2}" (len),
-                    : .{ .memory = true }
-                );
+                if (comptime is_macos) {
+                    // Number via x8, moved to x16 (macOS takes it there);
+                    // csneg folds carry-flag errors into -errno.
+                    return asm volatile ("mov x16, x8\n\tsvc #0x80\n\tcsneg x0, x0, x0, cs"
+                        : [ret] "={x0}" (-> usize),
+                        : [nr] "{x8}" (@as(usize, 0x2000004)),
+                          [fd] "{x0}" (@as(usize, @intCast(fd))),
+                          [p] "{x1}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{x2}" (len),
+                        : .{ .memory = true }
+                    );
+                } else {
+                    return asm volatile ("svc #0"
+                        : [ret] "={x0}" (-> usize),
+                        : [nr] "{x8}" (@as(usize, 64)),
+                          [fd] "{x0}" (@as(usize, @intCast(fd))),
+                          [p] "{x1}" (@as(usize, @intFromPtr(buf))),
+                          [n] "{x2}" (len),
+                        : .{ .memory = true }
+                    );
+                }
             }
         },
         else => @compileError("unsupported arch"),
